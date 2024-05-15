@@ -1,6 +1,6 @@
-package global.util;
+package com.FC.SharedOfficePlatform.global.util;
 
-import global.exception.ErrorCode;
+import com.FC.SharedOfficePlatform.global.exception.ErrorCode;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

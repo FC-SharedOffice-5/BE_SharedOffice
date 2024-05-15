@@ -1,4 +1,4 @@
-package global.exception;
+package com.FC.SharedOfficePlatform.global.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

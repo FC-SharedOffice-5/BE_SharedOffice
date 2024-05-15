@@ -1,4 +1,4 @@
-package global.common;
+package com.FC.SharedOfficePlatform.global.common;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

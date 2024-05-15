@@ -1,6 +1,6 @@
-package global.exception;
+package com.FC.SharedOfficePlatform.global.exception;
 
-import global.util.ResponseDTO;
+import com.FC.SharedOfficePlatform.global.util.ResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
