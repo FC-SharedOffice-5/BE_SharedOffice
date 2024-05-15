@@ -20,6 +20,9 @@ public abstract class BaseTimeEntity {
     @LastModifiedDate
     protected LocalDateTime updatedAt;
 
+}
+
+/*
     @Column(insertable = false)
     protected LocalDateTime deletedAt;
 
@@ -36,4 +39,4 @@ public abstract class BaseTimeEntity {
     protected void restore() {
         deletedAt = null;
     }
-}
+ */
