@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionRestAdvice {
 
+    @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<ResponseDTO<Void>> applicationException(ApplicationException e) {
         log.error(e.getMessage(), e);
         return ResponseEntity
@@ -19,7 +20,7 @@ public class GlobalExceptionRestAdvice {
             .body(ResponseDTO.error(e.getErrorCode()));
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(BindException.class)
     public ResponseEntity<ResponseDTO<Void>> bindException(BindException e) {
         log.error(e.getMessage(), e);
         return ResponseEntity
@@ -28,7 +29,7 @@ public class GlobalExceptionRestAdvice {
                 e.getBindingResult().getAllErrors().get(0).getDefaultMessage()));
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<ResponseDTO<Void>> dbException(DataAccessException e) {
         log.error(e.getMessage(), e);
         return ResponseEntity
@@ -36,7 +37,7 @@ public class GlobalExceptionRestAdvice {
             .body(ResponseDTO.errorWithMessage(HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러!"));
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ResponseDTO<Void>> serverException(RuntimeException e) {
         log.error(e.getMessage(), e);
         return ResponseEntity
