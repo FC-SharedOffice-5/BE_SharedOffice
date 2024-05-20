@@ -9,6 +9,8 @@ public enum ErrorCode {
     // USER
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
     MEMBER_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, "이미 가입된 회원입니다."),
+    REGISTERED_EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "등록된 메일이 존재하지 않습니다."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "패스워드가 틀렸습니다."),
 
     // 5xx
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러");
