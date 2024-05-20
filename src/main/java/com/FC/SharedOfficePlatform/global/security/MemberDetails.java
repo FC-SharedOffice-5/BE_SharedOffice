@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Builder
 public class MemberDetails implements UserDetails {
 
+    private final Long id;
     private final String email;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
@@ -20,6 +21,7 @@ public class MemberDetails implements UserDetails {
     public static MemberDetails create(Member member) {
         AuthorityCode authorityCode = getAuthorityByAuthCode(member.getAuthCode().getAuthCode());
         return MemberDetails.builder()
+            .id(member.getId())
             .email(member.getEmail())
             .password(member.getPassword())
             .authorities(List.of(new SimpleGrantedAuthority(authorityCode.name())))
@@ -38,6 +40,8 @@ public class MemberDetails implements UserDetails {
                 throw new IllegalArgumentException("유효하지 않은 인가 번호입니다" + authCode);
         }
     }
+
+    public Long getId() { return id; }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
