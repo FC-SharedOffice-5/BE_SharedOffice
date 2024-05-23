@@ -23,17 +23,12 @@ public class MemberService {
     public SignUpMemberResponse registerNewMember(SignUpMemberRequest request) {
         log.info("{} ::: {}", getClass().getSimpleName(), "registerNewMember");
 
-        // 이메일 중복 검증
         if (memberRepository.existsByEmail(request.email())) {
             throw new MemberAlreadyRegisteredException();
         }
-        // 패스워드 인코딩
-        Member member = request.toEntity(request.password());
-        member.setEncodedPassword(passwordEncoder.encode(request.password()));
-
-        // 패스워드 인코딩한 유저 등록 (save())
-        Member savedUser = memberRepository.save(member);
-        SignUpMemberResponse signUpMemberResponse = SignUpMemberResponse.from(savedUser);
-        return signUpMemberResponse;
+        String encodedPassword = passwordEncoder.encode(request.password());
+        Member member = request.toEntity(encodedPassword);
+        Member savedMember = memberRepository.save(member);
+        return SignUpMemberResponse.from(savedMember);
     }
 }

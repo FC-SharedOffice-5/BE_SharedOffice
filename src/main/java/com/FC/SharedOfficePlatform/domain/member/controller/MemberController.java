@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/signup")
 @Slf4j
-public class SignUpMemberController {
+public class MemberController {
 
     private final MemberService memberService;
 
