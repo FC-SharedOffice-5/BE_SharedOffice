@@ -20,22 +20,3 @@ public abstract class BaseTimeEntity {
     protected LocalDateTime updatedAt;
 
 }
-
-/*
-    @Column(insertable = false)
-    protected LocalDateTime deletedAt;
-
-    protected void delete(LocalDateTime currentTime) {
-        if (deletedAt == null) {
-            deletedAt = currentTime;
-        }
-    }
-
-    public boolean isDeleted() {
-        return deletedAt != null;
-    }
-
-    protected void restore() {
-        deletedAt = null;
-    }
- */
