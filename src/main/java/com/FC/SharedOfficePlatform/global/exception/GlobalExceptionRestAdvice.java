@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionRestAdvice {
 
-    // @ExceptionHandler annotation을 누락시켜서, Custom Exception 대신 INTERNAL_SERVER_ERROR가 나왔었음.
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<ResponseDTO<Void>> applicationException(ApplicationException e) {
         log.error(e.getMessage(), e);
@@ -31,7 +30,6 @@ public class GlobalExceptionRestAdvice {
             .body(ResponseDTO.error(e.getErrorCode()));
     }
 
-    // Request Body 형식이 틀린 경우, 400 (BAD_REQUEST) 에러 띄우도록 함 - 초기 셋업 이후, 24.05.19 추가
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ResponseDTO<Void>> httpMessageNotReadableException(
         HttpMessageNotReadableException e) {
@@ -41,8 +39,6 @@ public class GlobalExceptionRestAdvice {
             .body(ResponseDTO.errorWithMessage(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
-    //DTO Validation 실패 시 어떤 정보가 잘못 됐는지 메시지 자세히 출력 - 초기 셋업 이후, 24.05.19 추가
-    //bindException ~ getSortedFiledErrors
     @ExceptionHandler(BindException.class)
     public ResponseDTO<Void> bindException(BindException e) {
         log.warn("[bindException] Message = {}",
@@ -61,8 +57,6 @@ public class GlobalExceptionRestAdvice {
         return ResponseDTO.errorWithMessage(HttpStatus.BAD_REQUEST, response);
     }
 
-    //DTO Validation 실패 시 어떤 정보가 잘못 됐는지 메시지 자세히 출력 - 초기 셋업 이후, 24.05.19 추가
-    //bindException ~ getSortedFiledErrors
     private List<FieldError> getSortedFieldErrors(BindingResult bindingResult) {
         List<String> declaredFields = Arrays.stream(
                 Objects.requireNonNull(bindingResult.getTarget()).getClass().getDeclaredFields())
