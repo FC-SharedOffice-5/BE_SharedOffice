@@ -1,5 +1,6 @@
 package com.FC.SharedOfficePlatform.global.security;
 
+import com.FC.SharedOfficePlatform.global.security.MemberDetailsService;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -30,9 +31,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        /* JWT is STATELESS tokens
-         CSRF attacks rely on the browser's ability to send cookies to a different origin, which JWTs
-         mitigate by not relying on cookies for authentication */
         http
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(sessionManagement -> sessionManagement
@@ -69,45 +67,3 @@ public class SecurityConfig {
     }
 
 }
-
-
-
-/*     Before using WIHTE_LIST_URL = {} ;
------------------------
-    @Bean
-    public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
-
-        http.cors(AbstractHttpConfigurer::disable)
-            .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(
-                SessionCreationPolicy.STATELESS))
-            .formLogin(AbstractHttpConfigurer::disable)
-            .securityMatcher("/**")
-            .authorizeHttpRequests(
-                registry -> registry
-                    .requestMatchers("/signup", "/login").permitAll()
-                    .anyRequest().authenticated()
-            );
-        return http.build();
-    }
-
-    @Bean
-    public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
-        http.cors(AbstractHttpConfigurer::disable)
-            .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(
-                SessionCreationPolicy.STATELESS))
-            .formLogin(AbstractHttpConfigurer::disable)
-            .securityMatcher("/**")
-            .authorizeHttpRequests(
-                req -> req.requestMatchers(WHITE_LITT_URL) //  // Add the white-listed URLs
-                     .permitAll()
-                    .anyRequest()
-                    .authenticated()
-            );
-        return http.build();
-    }
-
-
-
- */
