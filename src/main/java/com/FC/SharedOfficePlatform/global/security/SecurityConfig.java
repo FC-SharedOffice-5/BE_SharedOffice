@@ -1,7 +1,6 @@
 package com.FC.SharedOfficePlatform.global.security;
 
-import com.FC.SharedOfficePlatform.global.security.MemberDetailsService;
-import java.util.Arrays;
+import com.FC.SharedOfficePlatform.global.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,46 +14,44 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String[] ALLOWED_SPECIFIC_URL = {
-        // 예시 -> "/signup/**", "/login/**"
-    };
-
+    private final JwtFilter jwtFilter;
     private final MemberDetailsService memberDetailsService;
+    private final UnauthorizedHandler unauthorizedHandler;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
+    public SecurityFilterChain applicationSecurity(HttpSecurity http) throws Exception {
+
+        http.cors(AbstractHttpConfigurer::disable)
             .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(
+                SessionCreationPolicy.STATELESS))
+            .formLogin(AbstractHttpConfigurer::disable)
+            .authenticationProvider(authenticationProvider())
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+
+            .exceptionHandling(
+                exceptionHandling -> exceptionHandling
+                    .authenticationEntryPoint(unauthorizedHandler)
             )
-        ;
-
-        http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-            .requestMatchers(
-                Arrays.stream(ALLOWED_SPECIFIC_URL)
-                    .map(AntPathRequestMatcher::new)
-                    .toArray(RequestMatcher[]::new)
-            ).permitAll()
-            .requestMatchers(
-                new AntPathRequestMatcher("/signup", HttpMethod.POST.name()),
-                new AntPathRequestMatcher("/login", HttpMethod.POST.name())
-            ).permitAll()
-            .anyRequest().authenticated()
-        );
-
+            .securityMatcher("/**")
+            .authorizeHttpRequests(
+                registry -> registry
+                    .requestMatchers(HttpMethod.POST, "/signup").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                    .anyRequest().authenticated()
+            );
         return http.build();
     }
+
     @Bean
-    public AuthenticationProvider authenticationProvider () {
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(memberDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -62,8 +59,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder () {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
