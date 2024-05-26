@@ -6,12 +6,16 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
 
-    // USER
+    // MEMBER
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
     MEMBER_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, "이미 가입된 회원입니다."),
     REGISTERED_EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "등록된 메일이 존재하지 않습니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "패스워드가 틀렸습니다."),
     UNAUTHORIZED(HttpStatus.BAD_REQUEST, "허가되지 않은 시도입니다."),
+
+    // Email
+    INVALID_VERIFICATION_CODE(HttpStatus.BAD_REQUEST, "인증 번호가 유효하지 않습니다."),
+    EMAIL_SENDING_EXCEPTION(HttpStatus.BAD_REQUEST,"인증번호 이메일 보내기에 실패했습니다."),
 
     //INQUIRY
     INQUIRY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 문의사항ID 입니다."),
