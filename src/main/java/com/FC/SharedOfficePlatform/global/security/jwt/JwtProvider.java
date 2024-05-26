@@ -1,7 +1,7 @@
 package com.FC.SharedOfficePlatform.global.security.jwt;
 
 import com.FC.SharedOfficePlatform.domain.member.entity.Member;
-import com.FC.SharedOfficePlatform.global.security.MemberDetails;
+import com.FC.SharedOfficePlatform.global.security.CustomMemberDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -74,7 +74,7 @@ public class JwtProvider {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        MemberDetails userDetails = MemberDetails.builder()
+        CustomMemberDetails userDetails = CustomMemberDetails.builder()
             .id(Long.parseLong(claims.getSubject()))
             .email(claims.get("email").toString())
             .password("") // Password is not included in the token for security reasons
