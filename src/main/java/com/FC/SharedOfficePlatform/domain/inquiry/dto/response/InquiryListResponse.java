@@ -3,7 +3,7 @@ package com.FC.SharedOfficePlatform.domain.inquiry.dto.response;
 import com.FC.SharedOfficePlatform.domain.inquiry.entity.Inquiry;
 import java.time.LocalDateTime;
 
-public record AllInquiryResponse(
+public record InquiryListResponse(
         Long inqId,
         long memberId,
         int inqType,
@@ -12,8 +12,8 @@ public record AllInquiryResponse(
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
-    public static AllInquiryResponse from(Inquiry inquiry) {
-        return new AllInquiryResponse(
+    public static InquiryListResponse from(Inquiry inquiry) {
+        return new InquiryListResponse(
                 inquiry.getInqId(),
                 inquiry.getMemberId(),
                 inquiry.getInqType(),

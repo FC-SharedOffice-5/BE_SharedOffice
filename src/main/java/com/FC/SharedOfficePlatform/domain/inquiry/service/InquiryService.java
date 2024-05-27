@@ -1,7 +1,7 @@
 package com.FC.SharedOfficePlatform.domain.inquiry.service;
 
 import com.FC.SharedOfficePlatform.domain.inquiry.dto.request.InquiryRequest;
-import com.FC.SharedOfficePlatform.domain.inquiry.dto.response.AllInquiryResponse;
+import com.FC.SharedOfficePlatform.domain.inquiry.dto.response.InquiryListResponse;
 import com.FC.SharedOfficePlatform.domain.inquiry.dto.response.InquiryResponse;
 import com.FC.SharedOfficePlatform.domain.inquiry.entity.Inquiry;
 import com.FC.SharedOfficePlatform.domain.inquiry.exception.InquiryNotFoundException;
@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-
 public class InquiryService {
 
     private final InquiryRepository inquiryRepository;
@@ -30,9 +29,16 @@ public class InquiryService {
     }
 
     @Transactional(readOnly = true)
-    public List<AllInquiryResponse> getAllInquiry(Long memberId) {
+    public List<InquiryListResponse> getAllInquiry(Long memberId) {
         return inquiryRepository.findByMemberId(memberId).stream()
-                .map(inquiry -> new AllInquiryResponse(inquiry.getInqId(),inquiry.getMemberId(), inquiry.getInqType() ,inquiry.getInqTitle(), inquiry.isInqResp(), inquiry.getCreatedAt(),inquiry.getUpdatedAt()))
+                .map(inquiry -> new InquiryListResponse(
+                        inquiry.getInqId(),
+                        inquiry.getMemberId(),
+                        inquiry.getInqType(),
+                        inquiry.getInqTitle(),
+                        inquiry.isInqResp(),
+                        inquiry.getCreatedAt(),
+                        inquiry.getUpdatedAt()))
                 .collect(Collectors.toList());
     }
 
@@ -43,8 +49,7 @@ public class InquiryService {
                     log.error("Inquiry with ID {} not found", inqId); // 로그 추가
                     return new InquiryNotFoundException("Inquiry with ID " + inqId + " not found");
                 });
-        InquiryResponse response = InquiryResponse.from(inquiry);
-        return response;
+        return InquiryResponse.from(inquiry);
     }
 
 }
