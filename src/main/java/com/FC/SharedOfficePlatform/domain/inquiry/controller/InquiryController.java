@@ -1,7 +1,7 @@
 package com.FC.SharedOfficePlatform.domain.inquiry.controller;
 
 import com.FC.SharedOfficePlatform.domain.inquiry.dto.request.InquiryRequest;
-import com.FC.SharedOfficePlatform.domain.inquiry.dto.response.AllInquiryResponse;
+import com.FC.SharedOfficePlatform.domain.inquiry.dto.response.InquiryListResponse;
 import com.FC.SharedOfficePlatform.domain.inquiry.dto.response.InquiryResponse;
 import com.FC.SharedOfficePlatform.domain.inquiry.service.InquiryService;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +28,9 @@ public class InquiryController {
 
     // 로그인한 memberId 문의만 조회가능 -> 추후 변경 가능성 있음
     @GetMapping
-    public ResponseEntity<List<AllInquiryResponse>> getAllInquiry(Long memberId) {
-        List<AllInquiryResponse> inquiries = inquiryService.getAllInquiry(memberId);
-        return ResponseEntity.ok(inquiries);
+    public ResponseEntity<List<InquiryListResponse>> getAllInquiry(Long memberId) {
+        List<InquiryListResponse> inquiryListResponse = inquiryService.getAllInquiry(memberId);
+        return ResponseEntity.ok(inquiryListResponse);
     }
 
     @GetMapping("/{inqId}")
