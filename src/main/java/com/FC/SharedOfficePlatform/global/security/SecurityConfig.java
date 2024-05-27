@@ -43,8 +43,9 @@ public class SecurityConfig {
             .securityMatcher("/**")
             .authorizeHttpRequests(
                 registry -> registry
-                    .requestMatchers(HttpMethod.POST, "/signup").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/members/signup").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/email/**").permitAll()
                     .anyRequest().authenticated()
             );
         return http.build();
