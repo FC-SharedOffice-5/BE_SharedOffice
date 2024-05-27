@@ -1,6 +1,11 @@
 package com.FC.SharedOfficePlatform.domain.member.service;
 
+import com.FC.SharedOfficePlatform.domain.auth.exception.RegisteredEmailNotFoundException;
+import com.FC.SharedOfficePlatform.domain.member.dto.request.SearchEmailRequest;
+import com.FC.SharedOfficePlatform.domain.member.dto.response.SearchEmailResponse;
+import com.FC.SharedOfficePlatform.domain.member.entity.Member;
 import com.FC.SharedOfficePlatform.domain.member.entity.VerificationCode;
+import com.FC.SharedOfficePlatform.domain.member.repository.MemberRepository;
 import com.FC.SharedOfficePlatform.domain.member.repository.VerificationCodeRepository;
 import com.FC.SharedOfficePlatform.domain.member.exception.EmailSendingException;
 import com.FC.SharedOfficePlatform.domain.member.exception.InvalidVerificationCodeException;
@@ -22,6 +27,7 @@ public class EmailService {
 
     private final JavaMailSender javaMailSender;
     private final VerificationCodeRepository verificationCodeRepository;
+    private final MemberRepository memberRepository;
 
     @Value("${SENDER_EMAIL}")
     private String senderEmail;
@@ -61,5 +67,11 @@ public class EmailService {
             sb.append(random.nextInt(10));
         }
         return sb.toString();
+    }
+
+    public SearchEmailResponse searchEmail(SearchEmailRequest request) {
+        Member member = memberRepository.findByMemberNameAndMemberNickname(request.memberName(), request.memberNickname())
+            .orElseThrow(() -> new RegisteredEmailNotFoundException());
+        return SearchEmailResponse.from(member);
     }
 }
