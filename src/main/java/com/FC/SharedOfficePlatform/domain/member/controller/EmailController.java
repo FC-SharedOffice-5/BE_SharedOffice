@@ -1,8 +1,11 @@
 package com.FC.SharedOfficePlatform.domain.member.controller;
 
+import com.FC.SharedOfficePlatform.domain.member.dto.request.SearchEmailRequest;
 import com.FC.SharedOfficePlatform.domain.member.dto.request.SendEmailRequest;
+import com.FC.SharedOfficePlatform.domain.member.dto.response.SearchEmailResponse;
 import com.FC.SharedOfficePlatform.domain.member.service.EmailService;
 import com.FC.SharedOfficePlatform.global.util.ResponseDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +34,14 @@ public class EmailController {
     public ResponseEntity<ResponseDTO<Void>> verifyEmail(@PathVariable String code, @RequestParam String email) {
         emailService.verifyCode(email, code);
         return ResponseEntity.ok(ResponseDTO.ok());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ResponseDTO<SearchEmailResponse>> searchEmail(
+        @Valid @RequestBody SearchEmailRequest request
+    ) {
+        SearchEmailResponse response = emailService.searchEmail(request);
+        return ResponseEntity.ok(ResponseDTO.okWithData(response));
     }
 }
 
