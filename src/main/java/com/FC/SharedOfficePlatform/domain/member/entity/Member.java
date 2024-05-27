@@ -73,4 +73,8 @@ public class Member extends BaseTimeEntity {
         this.messageAgree = messageAgree;
         this.pushAgree = pushAgree;
     }
+
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }
