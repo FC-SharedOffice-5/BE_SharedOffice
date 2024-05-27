@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Builder
-public class MemberDetails implements UserDetails {
+public class CustomMemberDetails implements UserDetails {
 
     private final Long id;
     private final String email;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class MemberDetailsService implements UserDetailsService {
+public class CustomMemberDetailsService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
@@ -29,8 +29,8 @@ public class MemberDetailsService implements UserDetailsService {
         return buildMemberDetails(member);
     }
 
-    private MemberDetails buildMemberDetails(Member member) {
-        return MemberDetails.builder()
+    private CustomMemberDetails buildMemberDetails(Member member) {
+        return CustomMemberDetails.builder()
             .id(member.getId())
             .email(member.getEmail())
             .password(member.getPassword())
