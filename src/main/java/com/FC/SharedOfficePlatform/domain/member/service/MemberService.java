@@ -1,8 +1,12 @@
 package com.FC.SharedOfficePlatform.domain.member.service;
 
+import com.FC.SharedOfficePlatform.domain.auth.exception.MemberNotFoundException;
 import com.FC.SharedOfficePlatform.domain.member.dto.request.SignUpMemberRequest;
+import com.FC.SharedOfficePlatform.domain.member.dto.request.UpdatePasswordRequest;
 import com.FC.SharedOfficePlatform.domain.member.dto.response.SignUpMemberResponse;
+import com.FC.SharedOfficePlatform.domain.member.dto.response.UpdatePasswordResponse;
 import com.FC.SharedOfficePlatform.domain.member.entity.Member;
+import com.FC.SharedOfficePlatform.domain.member.exception.AlreadyUsedPasswordException;
 import com.FC.SharedOfficePlatform.domain.member.exception.MemberAlreadyRegisteredException;
 import com.FC.SharedOfficePlatform.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +34,18 @@ public class MemberService {
         Member member = request.toEntity(encodedPassword);
         Member savedMember = memberRepository.save(member);
         return SignUpMemberResponse.from(savedMember);
+    }
+
+    @Transactional
+    public UpdatePasswordResponse updatePassword(Long id, UpdatePasswordRequest request) {
+        Member member = memberRepository.findById(id)
+            .orElseThrow(() -> new MemberNotFoundException());
+        if (passwordEncoder.matches(request.password(), member.getPassword())) {
+            throw new AlreadyUsedPasswordException();
+        }
+        String encodedPassword = passwordEncoder.encode(request.password());
+        member.updatePassword(encodedPassword);
+        memberRepository.save(member);
+        return UpdatePasswordResponse.from(member);
     }
 }
