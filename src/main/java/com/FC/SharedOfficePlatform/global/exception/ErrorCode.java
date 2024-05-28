@@ -30,6 +30,9 @@ public enum ErrorCode {
     //PLACE
     PLACE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회의실/스튜디오 입니다."),
 
+    //DOCUMENT
+    DOCUMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 문서 입니다."),
+
     // 5xx
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러");
 
