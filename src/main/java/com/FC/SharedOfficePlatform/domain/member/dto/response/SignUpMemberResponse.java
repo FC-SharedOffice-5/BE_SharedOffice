@@ -7,14 +7,16 @@ public record SignUpMemberResponse(
     String email,
     Role role,
     String memberName,
-    String memberNickname
+    String memberNickname,
+    Long memberId
 ) {
     public static SignUpMemberResponse from(Member member) {
         return new SignUpMemberResponse(
             member.getEmail(),
             member.getRole(),
             member.getMemberName(),
-            member.getMemberNickname()
+            member.getMemberNickname(),
+            member.getId()
         );
     }
 }

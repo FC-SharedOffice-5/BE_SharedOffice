@@ -12,6 +12,7 @@ public enum ErrorCode {
     REGISTERED_EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "등록된 메일이 존재하지 않습니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "패스워드가 틀렸습니다."),
     UNAUTHORIZED(HttpStatus.BAD_REQUEST, "허가되지 않은 시도입니다."),
+    ALREADY_USED_PASSWORD(HttpStatus.BAD_REQUEST, "이미 사용중인 비밀번호 입니다, 새로운 비밀번호를 입력해주세요."),
 
     // Email
     INVALID_VERIFICATION_CODE(HttpStatus.BAD_REQUEST, "인증 번호가 유효하지 않습니다."),
