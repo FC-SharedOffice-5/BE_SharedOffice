@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public record PlaceListResponse(
-        Long PlaceId,
+        Long placeId,
         long officeId,
         OfficeDto office,
         int placeCategory,

@@ -1,11 +1,14 @@
 package com.FC.SharedOfficePlatform.domain.place.dto.response;
 
+import com.FC.SharedOfficePlatform.domain.office.dto.OfficeDto;
 import com.FC.SharedOfficePlatform.domain.place.entity.Place;
+
 import java.time.LocalTime;
 
-public record PlaceResponse(
+public record PlaceDetailResponse(
         Long placeId,
         long officeId,
+        OfficeDto office,
         int placeCategory,
         String placeName,
         int placeCapacity,
@@ -15,10 +18,11 @@ public record PlaceResponse(
         boolean placeBeamYn,
         boolean placeVideoYn
 ) {
-    public static PlaceResponse from(Place place) {
-        return new PlaceResponse(
+    public static PlaceDetailResponse from(Place place) {
+        return new PlaceDetailResponse(
                 place.getPlaceId(),
                 place.getOfficeId(),
+                OfficeDto.from(place.getOffice()),
                 place.getPlaceCategory(),
                 place.getPlaceName(),
                 place.getPlaceCapacity(),

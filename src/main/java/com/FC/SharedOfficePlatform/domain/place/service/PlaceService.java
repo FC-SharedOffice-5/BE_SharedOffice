@@ -1,12 +1,7 @@
 package com.FC.SharedOfficePlatform.domain.place.service;
 
-import com.FC.SharedOfficePlatform.domain.office.dto.OfficeDto;
-import com.FC.SharedOfficePlatform.domain.office.dto.request.OfficeRequest;
-import com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeListResponse;
-import com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeResponse;
-import com.FC.SharedOfficePlatform.domain.office.entity.Office;
-import com.FC.SharedOfficePlatform.domain.office.exception.OfficeNotFoundException;
 import com.FC.SharedOfficePlatform.domain.place.dto.request.PlaceRequest;
+import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceDetailResponse;
 import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceListResponse;
 import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceResponse;
 import com.FC.SharedOfficePlatform.domain.place.entity.Place;
@@ -42,13 +37,13 @@ public class PlaceService {
     }
 
     @Transactional(readOnly = true)
-    public PlaceResponse getDetailPlace(Long PlaceId) {
-        Place Place = placeRepository.findById(PlaceId)
+    public PlaceDetailResponse getDetailPlace(Long placeId) {
+        Place Place = placeRepository.findById(placeId)
                 .orElseThrow(() -> {
-                    log.error("Place with ID {} not found", PlaceId); // 로그 추가
-                    return new PlaceNotFoundException("Inquiry with ID " + PlaceId + " not found");
+                    log.error("Place with ID {} not found", placeId); // 로그 추가
+                    return new PlaceNotFoundException("Inquiry with ID " + placeId + " not found");
                 });
-        return PlaceResponse.from(Place);
+        return PlaceDetailResponse.from(Place);
     }
 
 }
