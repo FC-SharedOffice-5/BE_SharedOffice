@@ -19,13 +19,16 @@ public enum ErrorCode {
     EMAIL_SENDING_EXCEPTION(HttpStatus.BAD_REQUEST,"인증번호 이메일 보내기에 실패했습니다."),
 
     //INQUIRY
-    INQUIRY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 문의사항ID 입니다."),
+    INQUIRY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 문의사항 입니다."),
 
     //BUSINESS
     BUSINESS_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 입점기업 입니다."),
 
     //OFFICE
     OFFICE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 입점기업 입니다."),
+
+    //PLACE
+    PLACE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회의실/스튜디오 입니다."),
 
     // 5xx
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러");
