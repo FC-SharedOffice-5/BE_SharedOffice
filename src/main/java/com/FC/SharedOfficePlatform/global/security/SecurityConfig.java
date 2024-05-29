@@ -42,10 +42,12 @@ public class SecurityConfig {
             )
             .securityMatcher("/**")
             .authorizeHttpRequests(
-                registry -> registry
+                authorize -> authorize
                     .requestMatchers(HttpMethod.POST, "/members/signup").permitAll()
+                    .requestMatchers(HttpMethod.PUT, "/members/update/pw/{id}").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/email/**").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/email/send/code").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/email/**").permitAll()
                     .anyRequest().authenticated()
             );
         return http.build();
@@ -64,3 +66,5 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
+
