@@ -33,6 +33,9 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "department")
+    private String department;
+
     @Column(name = "use_yn", columnDefinition = "TINYINT(1)")
     private Boolean useYn;
 
@@ -42,7 +45,7 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_nickname", length = 25)
     private String memberNickname;
 
-    @Column(name = "number_gender", columnDefinition = "TINYINT(1)")
+    @Column(name = "member_gender", columnDefinition = "TINYINT(1)")
     private Boolean memberGender;
 
     @Column(name = "member_birth")
@@ -58,12 +61,13 @@ public class Member extends BaseTimeEntity {
     private Boolean pushAgree;
 
     @Builder
-    public Member(String email, String password, Role role, Boolean useYn, String memberName,
-        String memberNickname, Boolean memberGender, LocalDate memberBirth, Boolean emailAgree,
-        Boolean messageAgree, Boolean pushAgree) {
+    public Member(String email, String password, Role role, String department, Boolean useYn,
+        String memberName, String memberNickname, Boolean memberGender, LocalDate memberBirth,
+        Boolean emailAgree, Boolean messageAgree, Boolean pushAgree) {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.department = department;
         this.useYn = useYn;
         this.memberName = memberName;
         this.memberNickname = memberNickname;
