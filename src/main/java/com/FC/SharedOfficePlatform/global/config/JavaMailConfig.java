@@ -20,7 +20,7 @@ public class JavaMailConfig {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.naver.com");
+        mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(465);
         mailSender.setUsername(emailId);
         mailSender.setPassword(emailPassword);
