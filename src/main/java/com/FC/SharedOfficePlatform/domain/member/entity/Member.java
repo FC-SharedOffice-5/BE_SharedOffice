@@ -81,4 +81,16 @@ public class Member extends BaseTimeEntity {
     public void updatePassword(String newPassword) {
         this.password = newPassword;
     }
+
+    public void updateMyInfo(String newMemberName, String newMemberNickname, LocalDate newMemberBirth) {
+        if (newMemberName != null) {
+            this.memberName = newMemberName;
+        }
+        if (newMemberNickname != null) {
+            this.memberNickname = newMemberNickname;
+        }
+        if (newMemberBirth != null) {
+            this.memberBirth = newMemberBirth;
+        }
+    }
 }
