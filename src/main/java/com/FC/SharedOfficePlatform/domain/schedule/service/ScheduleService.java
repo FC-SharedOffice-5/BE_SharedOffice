@@ -5,6 +5,7 @@ import com.FC.SharedOfficePlatform.domain.attendees.dto.response.AttendeesRespon
 import com.FC.SharedOfficePlatform.domain.attendees.entity.Attendees;
 import com.FC.SharedOfficePlatform.domain.attendees.repository.AttendeesRepository;
 import com.FC.SharedOfficePlatform.domain.schedule.dto.request.ScheduleRequest;
+import com.FC.SharedOfficePlatform.domain.schedule.dto.request.ScheduleUpdateRequest;
 import com.FC.SharedOfficePlatform.domain.schedule.dto.response.ScheduleListResponse;
 import com.FC.SharedOfficePlatform.domain.schedule.dto.response.ScheduleResponse;
 import com.FC.SharedOfficePlatform.domain.schedule.entity.Schedule;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,6 +73,43 @@ public class ScheduleService {
                     return new ScheduleNotFoundException("Schedule with ID " + eventId + " not found");
                 });
         return ScheduleResponse.from(schedule);
+    }
+
+    @Transactional
+    public ScheduleResponse updateSchedule(Long eventId, ScheduleUpdateRequest request) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        // 기존 일정 찾기
+        Schedule schedule = scheduleRepository.findById(eventId)
+                .orElseThrow(() -> new ScheduleNotFoundException("Schedule with ID " + eventId + " not found"));
+
+        // 일정 정보 업데이트
+        schedule.setResId(request.getResId());
+        schedule.setEventColor(request.getEventColor());
+        schedule.setEventTitle(request.getEventTitle());
+        schedule.setEventStartDate(LocalDateTime.parse(request.getEventStartDate(), formatter));
+        schedule.setEventEndDate(LocalDateTime.parse(request.getEventEndDate(), formatter));
+        schedule.setEventLocation(request.getEventLocation());
+        schedule.setEventMemo(request.getEventMemo());
+
+        // 기존 참석자 정보 삭제
+        List<Attendees> attendees = attendeesRepository.findBySchedule(schedule);
+        if (!attendees.isEmpty()) {
+            attendeesRepository.deleteAllInBatch(attendees);
+        }
+
+        // 참석자 목록 저장
+        List<Attendees> saveAttendees = request.getAttendeesList().stream()
+                .map(ar -> {
+                    Attendees attendee = ar.toEntity(schedule);
+                    return attendeesRepository.save(attendee);
+                })
+                .collect(Collectors.toList());
+
+        // 변경 사항을 데이터베이스에 반영
+        Schedule updatedSchedule = scheduleRepository.save(schedule);
+
+        return ScheduleResponse.from(updatedSchedule);
     }
 
 }
