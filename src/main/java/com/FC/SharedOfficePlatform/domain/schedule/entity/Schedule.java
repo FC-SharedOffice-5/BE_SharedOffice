@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -25,24 +26,31 @@ public class Schedule extends BaseTimeEntity {
     @Column(name = "member_id", nullable = false)
     private long memberId;
 
+    @Setter
     @Column(name = "res_id", nullable = false)
     private long resId;
 
+    @Setter
     @Column(name = "event_color", nullable = false)
     private int eventColor;
 
+    @Setter
     @Column(name = "event_title", length = 50)
     private String eventTitle;
 
+    @Setter
     @Column(name = "event_start_date")
     private LocalDateTime eventStartDate;
 
+    @Setter
     @Column(name = "event_end_date")
     private LocalDateTime eventEndDate;
 
+    @Setter
     @Column(name = "event_location", length = 100)
     private String eventLocation;
 
+    @Setter
     @Column(name = "event_memo", length = 5000)
     private String eventMemo;
 
