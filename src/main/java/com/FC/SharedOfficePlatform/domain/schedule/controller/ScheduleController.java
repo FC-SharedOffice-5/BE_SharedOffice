@@ -1,6 +1,7 @@
 package com.FC.SharedOfficePlatform.domain.schedule.controller;
 
 import com.FC.SharedOfficePlatform.domain.schedule.dto.request.ScheduleRequest;
+import com.FC.SharedOfficePlatform.domain.schedule.dto.request.ScheduleUpdateRequest;
 import com.FC.SharedOfficePlatform.domain.schedule.dto.response.ScheduleListResponse;
 import com.FC.SharedOfficePlatform.domain.schedule.dto.response.ScheduleResponse;
 import com.FC.SharedOfficePlatform.domain.schedule.service.ScheduleService;
@@ -41,6 +42,12 @@ public class ScheduleController {
     public ResponseEntity<ResponseDTO<ScheduleResponse>> getSchedule(@PathVariable Long eventId) {
         ScheduleResponse scheduleResponse = scheduleService.getSchedule(eventId);
         return ResponseEntity.ok(ResponseDTO.okWithData(scheduleResponse));
+    }
+
+    @PutMapping("/{eventId}")
+    public ResponseEntity<ScheduleResponse> updateSchedule(@PathVariable Long eventId, @RequestBody ScheduleUpdateRequest request) {
+        ScheduleResponse response = scheduleService.updateSchedule(eventId,request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
