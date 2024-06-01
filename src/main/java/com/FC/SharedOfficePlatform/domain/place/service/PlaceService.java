@@ -1,5 +1,7 @@
 package com.FC.SharedOfficePlatform.domain.place.service;
 
+import com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeListResponse;
+import com.FC.SharedOfficePlatform.domain.place.dto.PlaceFloorStats;
 import com.FC.SharedOfficePlatform.domain.place.dto.request.PlaceRequest;
 import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceDetailResponse;
 import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceListResponse;
@@ -7,6 +9,7 @@ import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceResponse;
 import com.FC.SharedOfficePlatform.domain.place.entity.Place;
 import com.FC.SharedOfficePlatform.domain.place.exception.PlaceNotFoundException;
 import com.FC.SharedOfficePlatform.domain.place.repository.PlaceRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,9 +33,14 @@ public class PlaceService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlaceListResponse> getAllPlace(long officeId) {
-        return placeRepository.getByOfficeId(officeId).stream()
-                .map(PlaceListResponse::from)
+    public List<PlaceFloorStats> getAllPlaceFloorStats(long officeId) {
+        return placeRepository.findPlaceFloorStatistics(officeId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PlaceDetailResponse> getDetailPlaceFloor(int placeFloor) {
+        return placeRepository.findByPlaceFloor(placeFloor).stream()
+                .map(PlaceDetailResponse::from)
                 .collect(Collectors.toList());
     }
 

@@ -1,5 +1,6 @@
 package com.FC.SharedOfficePlatform.domain.place.controller;
 
+import com.FC.SharedOfficePlatform.domain.place.dto.PlaceFloorStats;
 import com.FC.SharedOfficePlatform.domain.place.dto.request.PlaceRequest;
 import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceDetailResponse;
 import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceListResponse;
@@ -27,9 +28,15 @@ public class PlaceController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<List<PlaceListResponse>>> getAllPlace(@RequestParam long officeId) {
-        List<PlaceListResponse> placeListResponses = placeService.getAllPlace(officeId);
-        return ResponseEntity.ok(ResponseDTO.okWithData(placeListResponses));
+    public ResponseEntity<ResponseDTO<List<PlaceFloorStats>>> getAllPlaceFloorStats(@RequestParam long officeId) {
+        List<PlaceFloorStats> groupedPlaces = placeService.getAllPlaceFloorStats(officeId);
+        return ResponseEntity.ok(ResponseDTO.okWithData(groupedPlaces));
+    }
+
+    @GetMapping("/placeFloor")
+    public ResponseEntity<ResponseDTO<List<PlaceDetailResponse>>> getDetailPlaceFloor(@RequestParam int placeFloor) {
+        List<PlaceDetailResponse> placeDetailResponse = placeService.getDetailPlaceFloor(placeFloor);
+        return ResponseEntity.ok(ResponseDTO.okWithData(placeDetailResponse));
     }
 
     @GetMapping("/{placeId}")
