@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/places")
+@RequestMapping("/offices/places")
 public class PlaceController {
 
     private final PlaceService placeService;
