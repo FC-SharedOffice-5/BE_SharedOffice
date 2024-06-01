@@ -25,7 +25,7 @@ public enum ErrorCode {
     BUSINESS_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 입점기업 입니다."),
 
     //OFFICE
-    OFFICE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 입점기업 입니다."),
+    OFFICE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 지점 입니다."),
 
     //PLACE
     PLACE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회의실/스튜디오 입니다."),
@@ -35,6 +35,9 @@ public enum ErrorCode {
 
     //SCHEDULE
     SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 일정 입니다."),
+
+    //RESERVATION
+    RESERVATION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 예약 입니다."),
 
     // 5xx
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러");
