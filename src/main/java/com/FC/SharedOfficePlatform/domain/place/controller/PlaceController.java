@@ -5,6 +5,7 @@ import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceDetailResponse
 import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceListResponse;
 import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceResponse;
 import com.FC.SharedOfficePlatform.domain.place.service.PlaceService;
+import com.FC.SharedOfficePlatform.global.util.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,15 +27,15 @@ public class PlaceController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PlaceListResponse>> getAllPlace() {
-        List<PlaceListResponse> placeListResponses = placeService.getAllPlace();
-        return ResponseEntity.ok(placeListResponses);
+    public ResponseEntity<ResponseDTO<List<PlaceListResponse>>> getAllPlace(@RequestParam long officeId) {
+        List<PlaceListResponse> placeListResponses = placeService.getAllPlace(officeId);
+        return ResponseEntity.ok(ResponseDTO.okWithData(placeListResponses));
     }
 
     @GetMapping("/{placeId}")
-    public ResponseEntity<PlaceDetailResponse> getDetailPlace(@PathVariable Long placeId) {
+    public ResponseEntity<ResponseDTO<PlaceDetailResponse>> getDetailPlace(@PathVariable Long placeId) {
         PlaceDetailResponse placeDetailResponse = placeService.getDetailPlace(placeId);
-        return ResponseEntity.ok(placeDetailResponse);
+        return ResponseEntity.ok(ResponseDTO.okWithData(placeDetailResponse));
     }
 
 }

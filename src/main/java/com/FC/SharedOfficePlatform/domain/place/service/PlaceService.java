@@ -30,8 +30,8 @@ public class PlaceService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlaceListResponse> getAllPlace() {
-        return placeRepository.findAll().stream()
+    public List<PlaceListResponse> getAllPlace(long officeId) {
+        return placeRepository.getByOfficeId(officeId).stream()
                 .map(PlaceListResponse::from)
                 .collect(Collectors.toList());
     }
@@ -41,7 +41,7 @@ public class PlaceService {
         Place Place = placeRepository.findById(placeId)
                 .orElseThrow(() -> {
                     log.error("Place with ID {} not found", placeId); // 로그 추가
-                    return new PlaceNotFoundException("Inquiry with ID " + placeId + " not found");
+                    return new PlaceNotFoundException("Place with ID " + placeId + " not found");
                 });
         return PlaceDetailResponse.from(Place);
     }
