@@ -32,7 +32,7 @@ public class PlaceReservationController {
         return new ResponseEntity<>(placeResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/mypage/reservations")
+    @GetMapping("/mypage/offices/places/reservations")
     public ResponseEntity<ResponseDTO<Map<Long, List<PlaceReservationListResponse>>>> getAllPlaceReservation(Long memberId) {
         Map<Long, List<PlaceReservationListResponse>> placeReservationDetail = placeReservationService.getAllPlaceReservation(memberId);
         return ResponseEntity.ok(ResponseDTO.okWithData(placeReservationDetail));
