@@ -4,6 +4,7 @@ import com.FC.SharedOfficePlatform.domain.document.dto.request.DocumentRequest;
 import com.FC.SharedOfficePlatform.domain.document.dto.response.DocumentListResponse;
 import com.FC.SharedOfficePlatform.domain.document.dto.response.DocumentResponse;
 import com.FC.SharedOfficePlatform.domain.document.service.DocumentService;
+import com.FC.SharedOfficePlatform.global.util.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,15 +29,15 @@ public class DocumentController {
 
     // 로그인한 memberId 문의만 조회가능 -> 추후 변경 가능성 있음
     @GetMapping
-    public ResponseEntity<List<DocumentListResponse>> getAllDocument() {
+    public ResponseEntity<ResponseDTO<List<DocumentListResponse>>> getAllDocument() {
         List<DocumentListResponse> documentListResponse = documentService.getAllDocument();
-        return ResponseEntity.ok(documentListResponse);
+        return ResponseEntity.ok(ResponseDTO.okWithData(documentListResponse));
     }
 
     @GetMapping("/{docId}")
-    public ResponseEntity<DocumentResponse> getDocument(@PathVariable Long docId) {
+    public ResponseEntity<ResponseDTO<DocumentResponse>> getDocument(@PathVariable Long docId) {
         DocumentResponse documentResponse = documentService.getDocument(docId);
-        return ResponseEntity.ok(documentResponse);
+        return ResponseEntity.ok(ResponseDTO.okWithData(documentResponse));
     }
 
 }
