@@ -45,14 +45,6 @@ public class PlaceReservationService {
         return PlaceReservationResponse.from(savePlaceReservationRequestEntity);
     }
 
-//    @Transactional(readOnly = true)
-//    public List<PlaceReservationListResponse> getAllPlaceReservation(Long memberId) {
-//
-//        return placeReservationRepository.findByMemberId(memberId).stream()
-//                .map(PlaceReservationListResponse::from)
-//                .collect(Collectors.toList());
-//    }
-
     @Transactional(readOnly = true)
     public Map<Long, List<PlaceReservationListResponse>> getAllPlaceReservation(Long memberId) {
         // memberId로 장소 예약 목록을 조회하고, PlaceReservationListResponse로 매핑
@@ -66,15 +58,5 @@ public class PlaceReservationService {
 
         return groupedByOfficeId;
     }
-
-//    @Transactional(readOnly = true)
-//    public PlaceReservationListResponse getDetailPlaceReservation(Long Id) {
-//        PlaceReservation placeReservation = placeReservationRepository.findById(placeResId)
-//                .orElseThrow(() -> {
-//                    log.error("PlaceReservation with ID {} not found", placeResId); // 로그 추가
-//                    return new PlaceReservationNotFoundException("PlaceReservation with ID " + placeResId + " not found");
-//                });
-//        return PlaceReservationListResponse.from(placeReservation);
-//    }
 
 }
