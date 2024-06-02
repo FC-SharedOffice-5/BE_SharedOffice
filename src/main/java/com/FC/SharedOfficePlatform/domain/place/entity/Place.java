@@ -39,8 +39,8 @@ public class Place extends BaseTimeEntity {
     @Column(name = "place_capacity")
     private int placeCapacity;
 
-    @Column(name = "place_addr" , length = 20)
-    private String placeAddr;
+    @Column(name = "place_floor")
+    private int placeFloor;
 
     @Column(name = "place_start_date")
     private LocalTime placeStartDate;
@@ -60,7 +60,7 @@ public class Place extends BaseTimeEntity {
             int placeCategory,
             String placeName,
             int placeCapacity,
-            String placeAddr,
+            int placeFloor,
             LocalTime placeStartDate,
             LocalTime placeEndDate,
             boolean placeBeamYn,
@@ -70,7 +70,7 @@ public class Place extends BaseTimeEntity {
         this.placeCategory = placeCategory;
         this.placeName = placeName;
         this.placeCapacity = placeCapacity;
-        this.placeAddr = placeAddr;
+        this.placeFloor = placeFloor;
         this.placeStartDate = placeStartDate;
         this.placeEndDate = placeEndDate;
         this.placeBeamYn = placeBeamYn;

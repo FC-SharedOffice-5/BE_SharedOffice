@@ -4,6 +4,7 @@ import com.FC.SharedOfficePlatform.domain.office.dto.request.OfficeRequest;
 import com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeListResponse;
 import com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeResponse;
 import com.FC.SharedOfficePlatform.domain.office.service.OfficeService;
+import com.FC.SharedOfficePlatform.global.util.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +26,21 @@ public class OfficeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OfficeListResponse>> getAllOffice() {
+    public ResponseEntity<ResponseDTO<List<OfficeListResponse>>> getAllOffice() {
         List<OfficeListResponse> officeListResponses = officeService.getAllOffice();
-        return ResponseEntity.ok(officeListResponses);
+        return ResponseEntity.ok(ResponseDTO.okWithData(officeListResponses));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ResponseDTO<List<OfficeListResponse>>> getAllSearchOffice(@RequestParam String officeName) {
+        List<OfficeListResponse> officeListResponses = officeService.getAllSearchOffice(officeName);
+        return ResponseEntity.ok(ResponseDTO.okWithData(officeListResponses));
     }
 
     @GetMapping("/{officeId}")
-    public ResponseEntity<OfficeResponse> getDetailOffice(@PathVariable Long officeId) {
+    public ResponseEntity<ResponseDTO<OfficeResponse>> getDetailOffice(@PathVariable Long officeId) {
         OfficeResponse officeResponse = officeService.getDetailOffice(officeId);
-        return ResponseEntity.ok(officeResponse);
+        return ResponseEntity.ok(ResponseDTO.okWithData(officeResponse));
     }
 
 }
