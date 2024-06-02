@@ -16,26 +16,23 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/offices/places/reservations")
 public class PlaceReservationController {
 
     private final PlaceReservationService placeReservationService;
 
-    @GetMapping("/offices/places/reservations")
+    @GetMapping
     public ResponseEntity<ResponseDTO<List<PlaceDetailResponse>>> getDetailPlaceFloor(@RequestParam int placeFloor) {
         List<PlaceDetailResponse> placeDetailResponse = placeReservationService.getDetailPlaceFloor(placeFloor);
         return ResponseEntity.ok(ResponseDTO.okWithData(placeDetailResponse));
     }
 
-    @PostMapping("/offices/places/reservations")
+    @PostMapping
     public ResponseEntity<PlaceReservationResponse> insertPlaceReservation(@RequestBody PlaceReservationRequest request) {
         PlaceReservationResponse placeResponse = placeReservationService.insertPlaceReservation(request);
         return new ResponseEntity<>(placeResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/mypage/offices/places/reservations")
-    public ResponseEntity<ResponseDTO<Map<Long, List<PlaceReservationListResponse>>>> getAllPlaceReservation(Long memberId) {
-        Map<Long, List<PlaceReservationListResponse>> placeReservationDetail = placeReservationService.getAllPlaceReservation(memberId);
-        return ResponseEntity.ok(ResponseDTO.okWithData(placeReservationDetail));
-    }
+
 
 }
