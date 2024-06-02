@@ -1,6 +1,5 @@
 package com.FC.SharedOfficePlatform.domain.placeReservation.controller;
 
-import com.FC.SharedOfficePlatform.domain.place.dto.response.PlaceDetailResponse;
 import com.FC.SharedOfficePlatform.domain.placeReservation.dto.request.PlaceReservationRequest;
 import com.FC.SharedOfficePlatform.domain.placeReservation.dto.response.PlaceReservationListResponse;
 import com.FC.SharedOfficePlatform.domain.placeReservation.dto.response.PlaceReservationResponse;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +20,8 @@ public class PlaceReservationController {
     private final PlaceReservationService placeReservationService;
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<List<PlaceDetailResponse>>> getDetailPlaceFloor(@RequestParam int placeFloor) {
-        List<PlaceDetailResponse> placeDetailResponse = placeReservationService.getDetailPlaceFloor(placeFloor);
+    public ResponseEntity<ResponseDTO<List<PlaceReservationListResponse>>> getDetailPlaceFloor(@RequestParam Long officeId, @RequestParam int placeFloor) {
+        List<PlaceReservationListResponse> placeDetailResponse = placeReservationService.getDetailPlaceFloor(officeId, placeFloor);
         return ResponseEntity.ok(ResponseDTO.okWithData(placeDetailResponse));
     }
 
