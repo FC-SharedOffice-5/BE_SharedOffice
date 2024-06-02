@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/mypage/inquiries")
 @Slf4j
-public class InquiryController {
+public class InquiryMyPageController {
 
     private final InquiryService inquiryService;
 
