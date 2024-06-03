@@ -15,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -43,12 +44,21 @@ public class SecurityConfig {
             .securityMatcher("/**")
             .authorizeHttpRequests(
                 authorize -> authorize
-                    .requestMatchers(HttpMethod.POST, "/members/signup").permitAll()
+                    /*.requestMatchers(HttpMethod.POST, "/members/signup").permitAll()
                     .requestMatchers(HttpMethod.PUT, "/members/update/pw/{id}").permitAll()
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/email/send/code").permitAll()
                     .requestMatchers(HttpMethod.GET, "/email/**").permitAll()
-                    .requestMatchers(HttpMethod.POST,"/qrcode/validate").permitAll()
+                    .requestMatchers(HttpMethod.POST,"/qrcode/validate").permitAll()*/
+                    .requestMatchers(new AntPathRequestMatcher("/members/**")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/auth/**")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/email/**")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/qrcode/**")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/businesses/**")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/notices/**")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/mypage/**")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/offices/**")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/schedules/**")).permitAll()
                     .anyRequest().authenticated()
             );
         return http.build();
