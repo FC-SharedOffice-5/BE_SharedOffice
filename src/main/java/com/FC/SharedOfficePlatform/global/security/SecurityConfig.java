@@ -48,6 +48,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/email/send/code").permitAll()
                     .requestMatchers(HttpMethod.GET, "/email/**").permitAll()
+                    .requestMatchers(HttpMethod.POST,"/qrcode/validate").permitAll()
                     .anyRequest().authenticated()
             );
         return http.build();

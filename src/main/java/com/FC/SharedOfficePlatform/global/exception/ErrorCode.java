@@ -42,6 +42,9 @@ public enum ErrorCode {
     //RESERVATION
     RESERVATION_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 예약 입니다."),
 
+    //QRCode
+    INVALID_QRCODE(HttpStatus.BAD_REQUEST, "유효하지 않은 QR코드 입니다."),
+
     // 5xx
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러");
 
