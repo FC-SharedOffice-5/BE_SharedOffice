@@ -45,6 +45,11 @@ public enum ErrorCode {
     //QRCode
     INVALID_QRCODE(HttpStatus.BAD_REQUEST, "유효하지 않은 QR코드 입니다."),
 
+    //QRCode
+    FREE_BOARD_NOT_FOUND(HttpStatus.BAD_REQUEST, "존재하지 않는 게시글 입니다."),
+
+
+
     // 5xx
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러");
 
