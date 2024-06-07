@@ -10,7 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,11 +62,30 @@ public class ImageDataService {
         return sb.toString();
     }
 
-    // Without this method, We can't foster image on the browser.
+    // With this method, We can download image on the browser.
     public byte[] downloadImage(String fileName) {
         ImageData dbImageData = imageDataRepository.findByName(fileName)
             .orElseThrow(() -> new ImageFileNotFoundException());
         byte[] images = ImageUtils.decompressImage(dbImageData.getImageData());
         return images;
     }
+
+    public ImageDataResponse getImageUrl(Long imageId) {
+        ImageData dbImageData = imageDataRepository.findById(imageId)
+            .orElseThrow(() -> new ImageFileNotFoundException());
+        return ImageDataResponse.from(dbImageData);
+    }
+
+    public List<ImageDataResponse> getAllImageUrls() {
+        List<ImageData> allImages = imageDataRepository.findAll();
+        return allImages.stream()
+            .map(imageData -> new ImageDataResponse(
+                imageData.getId(),
+                imageData.getName(),
+                imageData.getUrl())
+                )
+            //.map(ImageDataResponse::from)
+            .collect(Collectors.toList());
+    }
+
 }
