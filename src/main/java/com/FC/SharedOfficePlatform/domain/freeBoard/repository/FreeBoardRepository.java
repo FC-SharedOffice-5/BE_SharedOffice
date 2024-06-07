@@ -15,9 +15,13 @@ import java.util.Optional;
 public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long> {
     List<FreeBoard> findByMemberId(Long memberId);
 
-    @Query("SELECT new com.FC.SharedOfficePlatform.domain.freeBoard.dto.response.FreeBoardListResponse(fb.boardId, fb.memberId, fb.officeId, fb.boardTitle, COUNT(ml.likeId) as likesCount, fb.createdAt, fb.updatedAt) " +
+    @Query("SELECT new com.FC.SharedOfficePlatform.domain.freeBoard.dto.response.FreeBoardListResponse(fb.boardId, fb.memberId, fb.officeId, fb.boardTitle, " +
+            "COUNT(ml.likeId) as likesCount," +
+            "COUNT(cm.commentId) as commentCount," +
+            "fb.createdAt, fb.updatedAt) " +
             "FROM FreeBoard fb " +
             "LEFT JOIN MemberLike ml ON ml.linkCode = fb.boardId AND ml.linkCategory = 1 " +
+            "LEFT JOIN Comment cm ON cm.linkId = fb.boardId AND cm.linkCategory = 0 " +
             "GROUP BY fb.boardId")
     List<FreeBoardListResponse> findAllWithLikesCount();
 
