@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,6 +73,12 @@ public class ImageDataController {
     public ResponseEntity<ResponseDTO<List<ImageDataResponse>>> getAllImageUrls() {
         List<ImageDataResponse> allImageUrls = imageDataService.getAllImageUrls();
         return ResponseEntity.ok(ResponseDTO.okWithData(allImageUrls));
+    }
+
+    @DeleteMapping("/{imageId}")
+    public ResponseEntity<ResponseDTO<Void>> deleteImage(@PathVariable Long imageId) {
+        imageDataService.deleteImage(imageId);
+        return ResponseEntity.ok(ResponseDTO.ok());
     }
 }
 
