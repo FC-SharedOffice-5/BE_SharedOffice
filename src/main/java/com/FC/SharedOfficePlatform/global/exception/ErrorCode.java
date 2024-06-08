@@ -45,6 +45,9 @@ public enum ErrorCode {
     //QRCode
     INVALID_QRCODE(HttpStatus.BAD_REQUEST, "유효하지 않은 QR코드 입니다."),
 
+    //QRCode
+    FREE_BOARD_NOT_FOUND(HttpStatus.BAD_REQUEST, "존재하지 않는 게시글 입니다."),
+
     //Image
     IMAGE_FILE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당하는 이미지가 없습니다."),
     IMAGE_FILE_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, "이미 등록된 이미지 파일입니다."),
