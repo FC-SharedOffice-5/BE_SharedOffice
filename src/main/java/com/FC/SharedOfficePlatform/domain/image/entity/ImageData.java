@@ -1,12 +1,15 @@
 package com.FC.SharedOfficePlatform.domain.image.entity;
 
+import com.FC.SharedOfficePlatform.domain.member.entity.Member;
 import com.FC.SharedOfficePlatform.global.common.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,12 +39,17 @@ public class ImageData extends BaseTimeEntity {
     // New field for storing the URL
     private String url;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @Builder
-    public ImageData(String name, String type, String hash, byte[] imageData, String url) {
+    public ImageData(String name, String type, String hash, byte[] imageData, String url, Member member) {
         this.name = name;
         this.type = type;
         this.hash = hash;
         this.imageData = imageData;
         this.url = url;
+        this.member = member;
     }
 }

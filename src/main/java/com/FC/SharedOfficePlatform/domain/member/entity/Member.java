@@ -1,7 +1,9 @@
 package com.FC.SharedOfficePlatform.domain.member.entity;
 
+import com.FC.SharedOfficePlatform.domain.image.entity.ImageData;
 import com.FC.SharedOfficePlatform.global.common.BaseTimeEntity;
 import com.FC.SharedOfficePlatform.global.security.enums.Role;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,7 +11,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,10 +65,13 @@ public class Member extends BaseTimeEntity {
     @Column(name = "push_agree", columnDefinition = "TINYINT(1)")
     private Boolean pushAgree;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageData> images = new ArrayList<>();
+
     @Builder
     public Member(String email, String password, Role role, String department, Boolean useYn,
         String memberName, String memberNickname, Boolean memberGender, LocalDate memberBirth,
-        Boolean emailAgree, Boolean messageAgree, Boolean pushAgree) {
+        Boolean emailAgree, Boolean messageAgree, Boolean pushAgree, List<ImageData> images) {
         this.email = email;
         this.password = password;
         this.role = role;
@@ -76,6 +84,9 @@ public class Member extends BaseTimeEntity {
         this.emailAgree = emailAgree;
         this.messageAgree = messageAgree;
         this.pushAgree = pushAgree;
+        if (images != null) {
+            this.images = images;
+        }
     }
 
     public void updatePassword(String newPassword) {
