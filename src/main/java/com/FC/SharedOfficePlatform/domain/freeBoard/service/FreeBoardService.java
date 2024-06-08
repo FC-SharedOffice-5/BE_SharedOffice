@@ -1,5 +1,7 @@
 package com.FC.SharedOfficePlatform.domain.freeBoard.service;
 
+import com.FC.SharedOfficePlatform.domain.comment.dto.response.CommentListResponse;
+import com.FC.SharedOfficePlatform.domain.comment.repository.CommentRepository;
 import com.FC.SharedOfficePlatform.domain.freeBoard.dto.request.FreeBoardRequest;
 import com.FC.SharedOfficePlatform.domain.freeBoard.dto.response.FreeBoardDetailResponse;
 import com.FC.SharedOfficePlatform.domain.freeBoard.dto.response.FreeBoardListResponse;
@@ -13,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class FreeBoardService {
 
     private final FreeBoardRepository freeBoardRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public FreeBoardResponse insertFreeBoard(FreeBoardRequest request) {
@@ -37,11 +39,20 @@ public class FreeBoardService {
 
     @Transactional(readOnly = true)
     public FreeBoardDetailResponse getFreeBoard(Long boardId, Long memberId) {
-        return freeBoardRepository.findByBoardIdWithLikesCount(boardId, memberId)
-                .orElseThrow(() -> {
-                    log.error("Document with ID {} not found", boardId); // 로그 추가
-                    return new FreeBoardNotFoundException("Document with ID " + boardId + " not found");
-                });
-    }
+        FreeBoardDetailResponse projection = freeBoardRepository.findByBoardIdWithLikesCount(boardId, memberId)
+                .orElseThrow(() -> new FreeBoardNotFoundException("Document with ID " + boardId + " not found"));
 
+        List<CommentListResponse> comments = commentRepository.findByLinkIdAndLinkCategory(boardId, 0, memberId);
+
+        return new FreeBoardDetailResponse(
+                projection.getBoardId(),
+                projection.getMemberId(),
+                projection.getOfficeId(),
+                projection.getBoardTitle(),
+                projection.getBoardContents(),
+                projection.getLikesCount(),
+                projection.getMemberLike(),
+                comments
+        );
+    }
 }
