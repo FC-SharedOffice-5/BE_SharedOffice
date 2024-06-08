@@ -6,6 +6,7 @@ import com.FC.SharedOfficePlatform.global.util.ResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +28,7 @@ public class ImageDataController {
 
     @PostMapping
     public ResponseEntity<ResponseDTO<ImageDataResponse>> uploadImage(
-        @RequestParam("image") MultipartFile file, HttpServletRequest request
+        @RequestParam("images") MultipartFile file, HttpServletRequest request
     ) throws IOException, NoSuchAlgorithmException {
         ImageDataResponse response = imageDataService.uploadImage(file, request);
         return ResponseEntity.ok(ResponseDTO.okWithData(response));
@@ -57,6 +58,20 @@ public class ImageDataController {
             .status(HttpStatus.OK)
             .contentType(MediaType.valueOf(contentType))
             .body(imageData);
+    }
+
+    @GetMapping("/url/{imageId}")
+    public ResponseEntity<ResponseDTO<ImageDataResponse>> getImageUrl(
+        @PathVariable Long imageId
+    ) {
+        ImageDataResponse imageUrl = imageDataService.getImageUrl(imageId);
+        return ResponseEntity.ok(ResponseDTO.okWithData(imageUrl));
+    }
+
+    @GetMapping("/urls")
+    public ResponseEntity<ResponseDTO<List<ImageDataResponse>>> getAllImageUrls() {
+        List<ImageDataResponse> allImageUrls = imageDataService.getAllImageUrls();
+        return ResponseEntity.ok(ResponseDTO.okWithData(allImageUrls));
     }
 }
 
