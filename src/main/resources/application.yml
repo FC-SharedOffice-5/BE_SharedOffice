@@ -24,3 +24,13 @@ jwt:
 
 cookie:
   domain: localhost
+
+#spring:
+  servlet:
+    multipart:
+      max-file-size: 16MB  # Set desired maximum file size
+      max-request-size: 16MB  # Set desired maximum request size
+
+server:
+  tomcat:
+    max-swallow-size: 16MB  # This sets the maximum size, Tomcat will swallow
