@@ -88,4 +88,9 @@ public class ImageDataService {
             .collect(Collectors.toList());
     }
 
+    public void deleteImage(Long imageId) {
+        ImageData existingImageData = imageDataRepository.findById(imageId)
+            .orElseThrow(() -> new ImageFileNotFoundException());
+        imageDataRepository.delete(existingImageData);
+    }
 }
