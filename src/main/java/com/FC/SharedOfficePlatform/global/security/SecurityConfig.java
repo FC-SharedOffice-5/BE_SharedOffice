@@ -60,6 +60,7 @@ public class SecurityConfig {
                     .requestMatchers(new AntPathRequestMatcher("/offices/**")).permitAll()
                     .requestMatchers(new AntPathRequestMatcher("/schedules/**")).permitAll()
                     .requestMatchers(new AntPathRequestMatcher("/images/**")).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/community/**")).permitAll()
                     .anyRequest().authenticated()
             );
         return http.build();
