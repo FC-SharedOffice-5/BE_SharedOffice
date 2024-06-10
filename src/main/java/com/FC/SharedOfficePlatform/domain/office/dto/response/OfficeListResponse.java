@@ -15,10 +15,12 @@ public record OfficeListResponse(
         int officeMeeting,
         String officeLatitude,
         String officeLongitude,
+        String officeFacilities,
+        Integer memberLike,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
-    public static OfficeListResponse from(Office office) {
+    public static OfficeListResponse from(Office office, Integer memberLike) {
         return new OfficeListResponse(
                 office.getOfficeId(),
                 office.getOfficeName(),
@@ -30,6 +32,8 @@ public record OfficeListResponse(
                 office.getOfficeMeeting(),
                 office.getOfficeLatitude(),
                 office.getOfficeLongitude(),
+                office.getOfficeFacilities(),
+                memberLike,
                 office.getCreatedAt(),
                 office.getUpdatedAt()
         );

@@ -1,16 +1,22 @@
 package com.FC.SharedOfficePlatform.domain.office.controller;
 
 import com.FC.SharedOfficePlatform.domain.office.dto.request.OfficeRequest;
+import com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeDetailResponse;
 import com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeListResponse;
 import com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeResponse;
+import com.FC.SharedOfficePlatform.domain.office.exception.OfficeNotFoundException;
 import com.FC.SharedOfficePlatform.domain.office.service.OfficeService;
+import com.FC.SharedOfficePlatform.domain.place.exception.PlaceNotFoundException;
+import com.FC.SharedOfficePlatform.global.security.CustomMemberDetails;
 import com.FC.SharedOfficePlatform.global.util.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,21 +32,42 @@ public class OfficeController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO<List<OfficeListResponse>>> getAllOffice() {
-        List<OfficeListResponse> officeListResponses = officeService.getAllOffice();
+    public ResponseEntity<ResponseDTO<List<OfficeListResponse>>> getAllOffice(Authentication authentication) {
+        CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
+        Long memberId = userDetails.getId();
+
+        List<OfficeListResponse> officeListResponses = officeService.getAllOffice(memberId);
         return ResponseEntity.ok(ResponseDTO.okWithData(officeListResponses));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ResponseDTO<List<OfficeListResponse>>> getAllSearchOffice(@RequestParam String officeName) {
-        List<OfficeListResponse> officeListResponses = officeService.getAllSearchOffice(officeName);
+    public ResponseEntity<ResponseDTO<List<OfficeListResponse>>> getAllAndSearchOffice(@RequestParam String officeName, Authentication authentication) {
+        CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
+        Long memberId = userDetails.getId();
+
+        List<OfficeListResponse> officeListResponses = officeService.getAllAndSearchOffice(officeName, memberId);
         return ResponseEntity.ok(ResponseDTO.okWithData(officeListResponses));
     }
 
     @GetMapping("/{officeId}")
-    public ResponseEntity<ResponseDTO<OfficeResponse>> getDetailOffice(@PathVariable Long officeId) {
-        OfficeResponse officeResponse = officeService.getDetailOffice(officeId);
-        return ResponseEntity.ok(ResponseDTO.okWithData(officeResponse));
+    public ResponseEntity<ResponseDTO<OfficeDetailResponse>> getDetailOffice(@PathVariable Long officeId, Authentication authentication) {
+        CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
+        Long memberId = userDetails.getId();
+
+        OfficeDetailResponse officeDetailResponse = officeService.getDetailOffice(officeId, memberId);
+        return ResponseEntity.ok(ResponseDTO.okWithData(officeDetailResponse));
     }
+//    @GetMapping("/{officeId}")
+//    public ResponseEntity<ResponseDTO<OfficeDetailResponse>> getDetailOffice(@PathVariable Long officeId, Authentication authentication) {
+//        CustomMemberDetails userDetails = (CustomMemberDetails) authentication.getPrincipal();
+//        Long memberId = userDetails.getId();
+//
+//        Optional<OfficeDetailResponse> officeDetailResponse = officeService.getDetailOffice(officeId, memberId);
+//        if (officeDetailResponse.isPresent()) {
+//            return ResponseEntity.ok(ResponseDTO.okWithData(officeDetailResponse.get()));
+//        } else {
+//            return new OfficeNotFoundException("Office with ID " + officeId + " not found");
+//        }
+//    }
 
 }
