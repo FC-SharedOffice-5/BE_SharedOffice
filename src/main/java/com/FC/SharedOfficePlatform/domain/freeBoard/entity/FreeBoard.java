@@ -1,7 +1,10 @@
 package com.FC.SharedOfficePlatform.domain.freeBoard.entity;
 
+import com.FC.SharedOfficePlatform.domain.image.entity.ImageData;
 import com.FC.SharedOfficePlatform.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,18 +32,22 @@ public class FreeBoard extends BaseTimeEntity {
     @Column(name = "board_contents", length = 500)
     private String boardContents;
 
+    @OneToMany(mappedBy = "freeBoard", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageData> images = new ArrayList<>();
 
     @Builder
     public FreeBoard(
             long memberId,
             long officeId,
             String boardTitle,
-            String boardContents
+            String boardContents,
+            List<ImageData> images
     ) {
         this.memberId = memberId;
         this.officeId = officeId;
         this.boardTitle = boardTitle;
         this.boardContents = boardContents;
+        this.images = images;
     }
 
 }

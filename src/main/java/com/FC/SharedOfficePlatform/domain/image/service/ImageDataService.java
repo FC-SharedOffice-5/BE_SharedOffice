@@ -1,8 +1,11 @@
 package com.FC.SharedOfficePlatform.domain.image.service;
 
 import com.FC.SharedOfficePlatform.domain.auth.exception.MemberNotFoundException;
+import com.FC.SharedOfficePlatform.domain.freeBoard.entity.FreeBoard;
+import com.FC.SharedOfficePlatform.domain.freeBoard.repository.FreeBoardRepository;
 import com.FC.SharedOfficePlatform.domain.image.dto.ImageDataResponse;
 import com.FC.SharedOfficePlatform.domain.image.entity.ImageData;
+import com.FC.SharedOfficePlatform.domain.image.exception.FreeBoardNotFoundException;
 import com.FC.SharedOfficePlatform.domain.image.exception.ImageFileAlreadyRegisteredException;
 import com.FC.SharedOfficePlatform.domain.image.exception.ImageFileNotFoundException;
 import com.FC.SharedOfficePlatform.domain.image.repository.ImageDataRepository;
@@ -26,6 +29,7 @@ public class ImageDataService {
 
     private final ImageDataRepository imageDataRepository;
     private final MemberRepository memberRepository;
+    private final FreeBoardRepository freeBoardRepository;
 
     public ImageDataResponse uploadImage(MultipartFile multipartFile, String entityType, Long entityId, HttpServletRequest httpServletRequest)
         throws IOException, NoSuchAlgorithmException {
@@ -43,11 +47,16 @@ public class ImageDataService {
         );
 
         Member member = null;
+        FreeBoard freeBoard = null;
 
         // Determine the entity type and retrieve the corresponding entity
-        if ("member".equalsIgnoreCase(entityType))
+        if ("member".equalsIgnoreCase(entityType)) {
             member = memberRepository.findById(entityId)
                 .orElseThrow(() -> new MemberNotFoundException());
+        } else if ("freeBoard".equalsIgnoreCase(entityType)) {
+            freeBoard = freeBoardRepository.findById(entityId)
+                .orElseThrow(() -> new FreeBoardNotFoundException());
+        }
 
         // Save new image data to the database if it does not already exist
         ImageData savedNewImageData = imageDataRepository.save(
@@ -58,15 +67,19 @@ public class ImageDataService {
                 .imageData(ImageUtils.compressImage(multipartFile.getBytes()))
                 .url(baseUrl + "/" + multipartFile.getOriginalFilename())  // Construct the URL
                 .member(member)
+                .freeBoard(freeBoard)
                 .build()
         );
 
-        if (member != null)
+        if (member != null) {
             member.getImages().add(savedNewImageData);
+        }
+        if (freeBoard != null) {
+            freeBoard.getImages().add(savedNewImageData);
+        }
 
         return ImageDataResponse.from(savedNewImageData);
     }
-
 
     // to prevent uploading duplicated file.
     private String generateImageHash(byte[] imageData) throws NoSuchAlgorithmException {
@@ -110,6 +123,12 @@ public class ImageDataService {
         Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new MemberNotFoundException());
         return imageDataRepository.findByMember(member);
+    }
+
+    public List<ImageData> getImagesByFreeBoard(Long boardId) {
+        FreeBoard freeBoard = freeBoardRepository.findById(boardId)
+            .orElseThrow(() -> new FreeBoardNotFoundException());
+        return imageDataRepository.findByFreeBoard(freeBoard);
     }
 
 }
