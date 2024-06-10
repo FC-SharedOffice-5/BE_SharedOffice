@@ -12,7 +12,8 @@ public record OfficeRequest(
         int officeStudio,
         int officeMeeting,
         String officeLatitude,
-        String officeLongitude
+        String officeLongitude,
+        String officeFacilities
 ) {
     public Office toEntity() {
         return Office
@@ -26,6 +27,7 @@ public record OfficeRequest(
                 .officeMeeting(officeMeeting())
                 .officeLatitude(officeLatitude())
                 .officeLongitude(officeLongitude())
+                .officeFacilities(officeFacilities())
                 .build();
     }
 }

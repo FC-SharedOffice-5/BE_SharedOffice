@@ -2,7 +2,7 @@ package com.FC.SharedOfficePlatform.domain.office.dto.response;
 
 import com.FC.SharedOfficePlatform.domain.office.entity.Office;
 
-public record OfficeResponse(
+public record OfficeDetailResponse(
         Long officeId,
         String officeName,
         String officeAddr,
@@ -13,10 +13,11 @@ public record OfficeResponse(
         int officeMeeting,
         String officeLatitude,
         String officeLongitude,
-        String officeFacilities
+        String officeFacilities,
+        Integer memberLike
 ) {
-    public static OfficeResponse from(Office office) {
-        return new OfficeResponse(
+    public static OfficeDetailResponse from(Office office, Integer memberLike) {
+        return new OfficeDetailResponse(
                 office.getOfficeId(),
                 office.getOfficeName(),
                 office.getOfficeAddr(),
@@ -27,7 +28,8 @@ public record OfficeResponse(
                 office.getOfficeMeeting(),
                 office.getOfficeLatitude(),
                 office.getOfficeLongitude(),
-                office.getOfficeFacilities()
+                office.getOfficeFacilities(),
+                memberLike
         );
     }
 }

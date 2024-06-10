@@ -44,6 +44,9 @@ public class Office extends BaseTimeEntity {
     @Column(name = "office_longitude", length = 15)
     private String officeLongitude;
 
+    @Column(name = "office_facilities", length = 100)
+    private String officeFacilities;
+
 
     @Builder
     public Office(
@@ -55,7 +58,8 @@ public class Office extends BaseTimeEntity {
             int officeStudio,
             int officeMeeting,
             String officeLatitude,
-            String officeLongitude
+            String officeLongitude,
+            String officeFacilities
     ) {
         this.officeName = officeName;
         this.officeAddr = officeAddr;
@@ -66,6 +70,7 @@ public class Office extends BaseTimeEntity {
         this.officeMeeting = officeMeeting;
         this.officeLatitude = officeLatitude;
         this.officeLongitude = officeLongitude;
+        this.officeFacilities = officeFacilities;
     }
 
 }
