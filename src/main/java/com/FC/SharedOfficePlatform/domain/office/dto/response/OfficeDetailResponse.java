@@ -14,9 +14,9 @@ public record OfficeDetailResponse(
         String officeLatitude,
         String officeLongitude,
         String officeFacilities,
-        Integer memberLike
+        boolean memberLike
 ) {
-    public static OfficeDetailResponse from(Office office, Integer memberLike) {
+    public static OfficeDetailResponse from(Office office, boolean memberLike) {
         return new OfficeDetailResponse(
                 office.getOfficeId(),
                 office.getOfficeName(),

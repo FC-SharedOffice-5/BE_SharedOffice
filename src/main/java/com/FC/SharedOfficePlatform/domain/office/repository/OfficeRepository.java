@@ -17,7 +17,7 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
     @Query("SELECT new com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeListResponse(" +
             "o.officeId, o.officeName, o.officeAddr, o.officeFloor, o.officeTime, o.officeCapacity, " +
             "o.officeStudio, o.officeMeeting, o.officeLatitude, o.officeLongitude, o.officeFacilities," +
-            "MAX(CASE WHEN ml.memberId = :memberId THEN 1 ELSE 0 END) AS memberLike, " +
+            "MAX(CASE WHEN ml.memberId = :memberId THEN 1 ELSE 0 END) = 1, " +
             "o.createdAt, o.updatedAt) " +
             "FROM Office o " +
             "LEFT JOIN MemberLike ml ON ml.linkCode = o.officeId AND ml.linkCategory = 0 " +
@@ -27,7 +27,7 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
     @Query("SELECT new com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeListResponse(" +
             "o.officeId, o.officeName, o.officeAddr, o.officeFloor, o.officeTime, o.officeCapacity, " +
             "o.officeStudio, o.officeMeeting, o.officeLatitude, o.officeLongitude, o.officeFacilities, " +
-            "MAX(CASE WHEN ml.memberId = :memberId THEN 1 ELSE 0 END) AS memberLike, " +
+            "MAX(CASE WHEN ml.memberId = :memberId THEN 1 ELSE 0 END) = 1, " +
             "o.createdAt, o.updatedAt) " +
             "FROM Office o " +
             "LEFT JOIN MemberLike ml ON ml.linkCode = o.officeId AND ml.linkCategory = 0 " +
@@ -38,7 +38,7 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
     @Query("SELECT new com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeDetailResponse(" +
             "o.officeId, o.officeName, o.officeAddr, o.officeFloor, o.officeTime, o.officeCapacity, " +
             "o.officeStudio, o.officeMeeting, o.officeLatitude, o.officeLongitude, o.officeFacilities, " +
-            "MAX(CASE WHEN ml.memberId = :memberId THEN 1 ELSE 0 END) AS memberLike) " +
+            "MAX(CASE WHEN ml.memberId = :memberId THEN 1 ELSE 0 END) = 1) " +
             "FROM Office o " +
             "LEFT JOIN MemberLike ml ON ml.linkCode = o.officeId AND ml.linkCategory = 0 " +
             "WHERE o.officeId = :officeId " +

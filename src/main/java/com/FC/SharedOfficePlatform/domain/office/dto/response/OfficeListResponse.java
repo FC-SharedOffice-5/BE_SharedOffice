@@ -16,11 +16,11 @@ public record OfficeListResponse(
         String officeLatitude,
         String officeLongitude,
         String officeFacilities,
-        Integer memberLike,
+        boolean memberLike,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
-    public static OfficeListResponse from(Office office, Integer memberLike) {
+    public static OfficeListResponse from(Office office, boolean memberLike) {
         return new OfficeListResponse(
                 office.getOfficeId(),
                 office.getOfficeName(),
