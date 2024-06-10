@@ -95,6 +95,15 @@ public class ImageDataController {
         return ResponseEntity.ok(ResponseDTO.okWithData(responses));
     }
 
+    @GetMapping("/freeBoard/{boardId}")
+    public ResponseEntity<ResponseDTO<List<ImageDataResponse>>> getImagesByFreeBoard(@PathVariable Long boardId) {
+        List<ImageData> imagesByFreeBoard = imageDataService.getImagesByFreeBoard(boardId);
+        List<ImageDataResponse> responses = imagesByFreeBoard.stream()
+            .map(ImageDataResponse::from)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(ResponseDTO.okWithData(responses));
+    }
+
 }
 
 
