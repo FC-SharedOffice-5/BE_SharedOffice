@@ -37,8 +37,8 @@ public class MemberService {
     }
 
     @Transactional
-    public UpdatePasswordResponse updatePassword(Long id, UpdatePasswordRequest request) {
-        Member member = memberRepository.findById(id)
+    public UpdatePasswordResponse updatePassword(String email, UpdatePasswordRequest request) {
+        Member member = memberRepository.findByEmail(email)
             .orElseThrow(() -> new MemberNotFoundException());
         if (passwordEncoder.matches(request.password(), member.getPassword())) {
             throw new AlreadyUsedPasswordException();
