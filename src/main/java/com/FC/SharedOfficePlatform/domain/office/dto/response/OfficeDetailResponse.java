@@ -14,6 +14,7 @@ public record OfficeDetailResponse(
         String officeLatitude,
         String officeLongitude,
         String officeFacilities,
+        String officePhone,
         boolean memberLike
 ) {
     public static OfficeDetailResponse from(Office office, boolean memberLike) {
@@ -29,6 +30,7 @@ public record OfficeDetailResponse(
                 office.getOfficeLatitude(),
                 office.getOfficeLongitude(),
                 office.getOfficeFacilities(),
+                office.getOfficePhone(),
                 memberLike
         );
     }

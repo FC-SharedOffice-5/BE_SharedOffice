@@ -13,7 +13,8 @@ public record OfficeResponse(
         int officeMeeting,
         String officeLatitude,
         String officeLongitude,
-        String officeFacilities
+        String officeFacilities,
+        String officePhone
 ) {
     public static OfficeResponse from(Office office) {
         return new OfficeResponse(
@@ -27,7 +28,8 @@ public record OfficeResponse(
                 office.getOfficeMeeting(),
                 office.getOfficeLatitude(),
                 office.getOfficeLongitude(),
-                office.getOfficeFacilities()
+                office.getOfficeFacilities(),
+                office.getOfficePhone()
         );
     }
 }

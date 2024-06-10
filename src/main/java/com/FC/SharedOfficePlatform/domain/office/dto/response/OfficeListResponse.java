@@ -7,8 +7,6 @@ import java.time.LocalDateTime;
 public record OfficeListResponse(
         Long officeId,
         String officeName,
-        String officeAddr,
-        int officeFloor,
         String officeTime,
         int officeCapacity,
         int officeStudio,
@@ -24,8 +22,6 @@ public record OfficeListResponse(
         return new OfficeListResponse(
                 office.getOfficeId(),
                 office.getOfficeName(),
-                office.getOfficeAddr(),
-                office.getOfficeFloor(),
                 office.getOfficeTime(),
                 office.getOfficeCapacity(),
                 office.getOfficeStudio(),
