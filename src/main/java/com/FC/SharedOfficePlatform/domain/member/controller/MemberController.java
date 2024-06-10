@@ -36,11 +36,11 @@ public class MemberController {
         return ResponseEntity.ok(ResponseDTO.okWithData(response));
     }
 
-    @PutMapping("/update/pw/{id}")
+    @PutMapping("/update/pw/{email}")
     public ResponseEntity<ResponseDTO<UpdatePasswordResponse>> updatePassword(
-        @PathVariable Long id, @RequestBody UpdatePasswordRequest request
+        @PathVariable String email, @RequestBody UpdatePasswordRequest request
     ) {
-        UpdatePasswordResponse response = memberService.updatePassword(id, request);
+        UpdatePasswordResponse response = memberService.updatePassword(email, request);
         return ResponseEntity.ok(ResponseDTO.okWithData(response));
     }
 }
