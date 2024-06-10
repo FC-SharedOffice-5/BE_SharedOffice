@@ -3,6 +3,7 @@ package com.FC.SharedOfficePlatform.domain.image.repository;
 import com.FC.SharedOfficePlatform.domain.freeBoard.entity.FreeBoard;
 import com.FC.SharedOfficePlatform.domain.image.entity.ImageData;
 import com.FC.SharedOfficePlatform.domain.member.entity.Member;
+import com.FC.SharedOfficePlatform.domain.office.entity.Office;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,5 @@ public interface ImageDataRepository extends JpaRepository<ImageData ,Long> {
 
     List<ImageData> findByFreeBoard(FreeBoard freeBoard);
 
+    List<ImageData> findByOffice(Office office);
 }
