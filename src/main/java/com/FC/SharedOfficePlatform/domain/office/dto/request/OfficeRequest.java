@@ -2,6 +2,8 @@ package com.FC.SharedOfficePlatform.domain.office.dto.request;
 
 import com.FC.SharedOfficePlatform.domain.office.entity.Office;
 
+import java.util.List;
+
 public record OfficeRequest(
         Long officeId,
         String officeName,
@@ -13,7 +15,7 @@ public record OfficeRequest(
         int officeMeeting,
         String officeLatitude,
         String officeLongitude,
-        String officeFacilities,
+        List<String> officeFacilities,
         String officePhone
 ) {
     public Office toEntity() {

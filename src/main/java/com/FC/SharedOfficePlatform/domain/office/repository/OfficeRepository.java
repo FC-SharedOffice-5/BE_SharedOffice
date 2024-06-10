@@ -15,7 +15,7 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
 
     @Query("SELECT new com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeListResponse(" +
             "o.officeId, o.officeName, o.officeTime, o.officeCapacity, o.officeStudio, " +
-            "o.officeMeeting, o.officeLatitude, o.officeLongitude, o.officeFacilities," +
+            "o.officeMeeting, o.officeLatitude, o.officeLongitude, " +
             "MAX(CASE WHEN ml.memberId = :memberId THEN 1 ELSE 0 END) = 1, " +
             "o.createdAt, o.updatedAt) " +
             "FROM Office o " +
@@ -25,7 +25,7 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
 
     @Query("SELECT new com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeListResponse(" +
             "o.officeId, o.officeName, o.officeTime, o.officeCapacity, o.officeStudio, " +
-            "o.officeMeeting, o.officeLatitude, o.officeLongitude, o.officeFacilities, " +
+            "o.officeMeeting, o.officeLatitude, o.officeLongitude, " +
             "MAX(CASE WHEN ml.memberId = :memberId THEN 1 ELSE 0 END) = 1, " +
             "o.createdAt, o.updatedAt) " +
             "FROM Office o " +
@@ -36,7 +36,7 @@ public interface OfficeRepository extends JpaRepository<Office, Long> {
 
     @Query("SELECT new com.FC.SharedOfficePlatform.domain.office.dto.response.OfficeDetailResponse(" +
             "o.officeId, o.officeName, o.officeAddr, o.officeFloor, o.officeTime, o.officeCapacity, " +
-            "o.officeStudio, o.officeMeeting, o.officeLatitude, o.officeLongitude, o.officeFacilities, o.officePhone, " +
+            "o.officeStudio, o.officeMeeting, o.officeLatitude, o.officeLongitude, o.officePhone, " +
             "MAX(CASE WHEN ml.memberId = :memberId THEN 1 ELSE 0 END) = 1) " +
             "FROM Office o " +
             "LEFT JOIN MemberLike ml ON ml.linkCode = o.officeId AND ml.linkCategory = 0 " +

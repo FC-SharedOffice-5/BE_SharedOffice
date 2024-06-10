@@ -1,37 +1,52 @@
 package com.FC.SharedOfficePlatform.domain.office.dto.response;
 
-import com.FC.SharedOfficePlatform.domain.office.entity.Office;
+import lombok.Getter;
+import lombok.Setter;
 
-public record OfficeDetailResponse(
-        Long officeId,
-        String officeName,
-        String officeAddr,
-        int officeFloor,
-        String officeTime,
-        int officeCapacity,
-        int officeStudio,
-        int officeMeeting,
-        String officeLatitude,
-        String officeLongitude,
-        String officeFacilities,
-        String officePhone,
-        boolean memberLike
-) {
-    public static OfficeDetailResponse from(Office office, boolean memberLike) {
-        return new OfficeDetailResponse(
-                office.getOfficeId(),
-                office.getOfficeName(),
-                office.getOfficeAddr(),
-                office.getOfficeFloor(),
-                office.getOfficeTime(),
-                office.getOfficeCapacity(),
-                office.getOfficeStudio(),
-                office.getOfficeMeeting(),
-                office.getOfficeLatitude(),
-                office.getOfficeLongitude(),
-                office.getOfficeFacilities(),
-                office.getOfficePhone(),
-                memberLike
-        );
+import java.util.List;
+
+@Getter
+public class OfficeDetailResponse {
+    private Long officeId;
+    private String officeName;
+    private String officeAddr;
+    private int officeFloor;
+    private String officeTime;
+    private int officeCapacity;
+    private int officeStudio;
+    private int officeMeeting;
+    private String officeLatitude;
+    private String officeLongitude;
+    @Setter
+    private List<String> officeFacilities;
+    private String officePhone;
+    private boolean memberLike;
+
+    public OfficeDetailResponse (
+            Long officeId,
+            String officeName,
+            String officeAddr,
+            int officeFloor,
+            String officeTime,
+            int officeCapacity,
+            int officeStudio,
+            int officeMeeting,
+            String officeLatitude,
+            String officeLongitude,
+            String officePhone,
+            boolean memberLike
+    ) {
+        this.officeId = officeId;
+        this.officeName = officeName;
+        this.officeAddr = officeAddr;
+        this.officeFloor = officeFloor;
+        this.officeTime = officeTime;
+        this.officeCapacity = officeCapacity;
+        this.officeStudio = officeStudio;
+        this.officeMeeting = officeMeeting;
+        this.officeLatitude = officeLatitude;
+        this.officeLongitude = officeLongitude;
+        this.officePhone = officePhone;
+        this.memberLike = memberLike;
     }
 }
