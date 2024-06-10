@@ -1,7 +1,10 @@
 package com.FC.SharedOfficePlatform.domain.office.entity;
 
+import com.FC.SharedOfficePlatform.domain.image.entity.ImageData;
 import com.FC.SharedOfficePlatform.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,6 +50,8 @@ public class Office extends BaseTimeEntity {
     @Column(name = "office_facilities", length = 100)
     private String officeFacilities;
 
+    @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageData> images = new ArrayList<>();
 
     @Builder
     public Office(
@@ -59,7 +64,8 @@ public class Office extends BaseTimeEntity {
             int officeMeeting,
             String officeLatitude,
             String officeLongitude,
-            String officeFacilities
+            String officeFacilities,
+            List<ImageData> images
     ) {
         this.officeName = officeName;
         this.officeAddr = officeAddr;
@@ -71,6 +77,7 @@ public class Office extends BaseTimeEntity {
         this.officeLatitude = officeLatitude;
         this.officeLongitude = officeLongitude;
         this.officeFacilities = officeFacilities;
+        this.images = images;
     }
 
 }
