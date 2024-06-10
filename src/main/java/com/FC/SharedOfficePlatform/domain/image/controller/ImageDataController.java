@@ -1,12 +1,14 @@
 package com.FC.SharedOfficePlatform.domain.image.controller;
 
 import com.FC.SharedOfficePlatform.domain.image.dto.ImageDataResponse;
+import com.FC.SharedOfficePlatform.domain.image.entity.ImageData;
 import com.FC.SharedOfficePlatform.domain.image.service.ImageDataService;
 import com.FC.SharedOfficePlatform.global.util.ResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,9 +31,12 @@ public class ImageDataController {
 
     @PostMapping
     public ResponseEntity<ResponseDTO<ImageDataResponse>> uploadImage(
-        @RequestParam("images") MultipartFile file, HttpServletRequest request
+        @RequestParam("images") MultipartFile file,
+        @RequestParam("entityType") String entityType,
+        @RequestParam("entityId") Long entityId,
+        HttpServletRequest request
     ) throws IOException, NoSuchAlgorithmException {
-        ImageDataResponse response = imageDataService.uploadImage(file, request);
+        ImageDataResponse response = imageDataService.uploadImage(file, entityType, entityId, request);
         return ResponseEntity.ok(ResponseDTO.okWithData(response));
     }
 
@@ -80,6 +85,16 @@ public class ImageDataController {
         imageDataService.deleteImage(imageId);
         return ResponseEntity.ok(ResponseDTO.ok());
     }
+
+    @GetMapping("/member/{memberId}")
+    public ResponseEntity<ResponseDTO<List<ImageDataResponse>>> getImagesByMember(@PathVariable Long memberId) {
+        List<ImageData> imagesByMember = imageDataService.getImagesByMember(memberId);
+        List<ImageDataResponse> responses = imagesByMember.stream()
+            .map(ImageDataResponse::from)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(ResponseDTO.okWithData(responses));
+    }
+
 }
 
 

@@ -1,10 +1,13 @@
 package com.FC.SharedOfficePlatform.domain.image.service;
 
+import com.FC.SharedOfficePlatform.domain.auth.exception.MemberNotFoundException;
 import com.FC.SharedOfficePlatform.domain.image.dto.ImageDataResponse;
 import com.FC.SharedOfficePlatform.domain.image.entity.ImageData;
 import com.FC.SharedOfficePlatform.domain.image.exception.ImageFileAlreadyRegisteredException;
 import com.FC.SharedOfficePlatform.domain.image.exception.ImageFileNotFoundException;
 import com.FC.SharedOfficePlatform.domain.image.repository.ImageDataRepository;
+import com.FC.SharedOfficePlatform.domain.member.entity.Member;
+import com.FC.SharedOfficePlatform.domain.member.repository.MemberRepository;
 import com.FC.SharedOfficePlatform.global.util.ImageUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -22,34 +25,48 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageDataService {
 
     private final ImageDataRepository imageDataRepository;
+    private final MemberRepository memberRepository;
 
-    public ImageDataResponse uploadImage(MultipartFile multipartFile, HttpServletRequest httpServletRequest)
-        throws IOException, NoSuchAlgorithmException
-    {
+    public ImageDataResponse uploadImage(MultipartFile multipartFile, String entityType, Long entityId, HttpServletRequest httpServletRequest)
+        throws IOException, NoSuchAlgorithmException {
         String imageHash = generateImageHash(multipartFile.getBytes());
         Optional<ImageData> existingImage = imageDataRepository.findByHash(imageHash);
         if (existingImage.isPresent()) {
             throw new ImageFileAlreadyRegisteredException();
         }
-        // Construct the base URL dynamically (we don't need to configure specific Url explicitly)
+
         String baseUrl = String.format(
             "%s://%s:%d/images",
             httpServletRequest.getScheme(),
             httpServletRequest.getServerName(),
             httpServletRequest.getServerPort()
-            );
-        // save new image data to a database if it does not already exist.
+        );
+
+        Member member = null;
+
+        // Determine the entity type and retrieve the corresponding entity
+        if ("member".equalsIgnoreCase(entityType))
+            member = memberRepository.findById(entityId)
+                .orElseThrow(() -> new MemberNotFoundException());
+
+        // Save new image data to the database if it does not already exist
         ImageData savedNewImageData = imageDataRepository.save(
             ImageData.builder()
-            .name(multipartFile.getOriginalFilename())
-            .type(multipartFile.getContentType())
-            .hash(imageHash)
-            .imageData(ImageUtils.compressImage(multipartFile.getBytes()))
-            .url(baseUrl + "/" + multipartFile.getOriginalFilename())  // Construct the URL
-            .build()
-            );
+                .name(multipartFile.getOriginalFilename())
+                .type(multipartFile.getContentType())
+                .hash(imageHash)
+                .imageData(ImageUtils.compressImage(multipartFile.getBytes()))
+                .url(baseUrl + "/" + multipartFile.getOriginalFilename())  // Construct the URL
+                .member(member)
+                .build()
+        );
+
+        if (member != null)
+            member.getImages().add(savedNewImageData);
+
         return ImageDataResponse.from(savedNewImageData);
     }
+
 
     // to prevent uploading duplicated file.
     private String generateImageHash(byte[] imageData) throws NoSuchAlgorithmException {
@@ -79,12 +96,7 @@ public class ImageDataService {
     public List<ImageDataResponse> getAllImageUrls() {
         List<ImageData> allImages = imageDataRepository.findAll();
         return allImages.stream()
-            .map(imageData -> new ImageDataResponse(
-                imageData.getId(),
-                imageData.getName(),
-                imageData.getUrl())
-                )
-            //.map(ImageDataResponse::from)
+            .map(ImageDataResponse::from)
             .collect(Collectors.toList());
     }
 
@@ -93,4 +105,11 @@ public class ImageDataService {
             .orElseThrow(() -> new ImageFileNotFoundException());
         imageDataRepository.delete(existingImageData);
     }
+
+    public List<ImageData> getImagesByMember(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+            .orElseThrow(() -> new MemberNotFoundException());
+        return imageDataRepository.findByMember(member);
+    }
+
 }
