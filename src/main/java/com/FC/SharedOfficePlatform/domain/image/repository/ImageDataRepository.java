@@ -1,5 +1,6 @@
 package com.FC.SharedOfficePlatform.domain.image.repository;
 
+import com.FC.SharedOfficePlatform.domain.freeBoard.entity.FreeBoard;
 import com.FC.SharedOfficePlatform.domain.image.entity.ImageData;
 import com.FC.SharedOfficePlatform.domain.member.entity.Member;
 import java.util.List;
@@ -15,5 +16,7 @@ public interface ImageDataRepository extends JpaRepository<ImageData ,Long> {
     Optional<ImageData> findByHash(String hash);
 
     List<ImageData> findByMember(Member member);
+
+    List<ImageData> findByFreeBoard(FreeBoard freeBoard);
 
 }
