@@ -6,8 +6,8 @@ public record FreeBoardResponse(
         Long boardId,
         long memberId,
         long officeId,
-        String docTitle,
-        String docContents
+        String boardTitle,
+        String boardContents
 ) {
     public static FreeBoardResponse from(FreeBoard freeBoard) {
         return new FreeBoardResponse(
