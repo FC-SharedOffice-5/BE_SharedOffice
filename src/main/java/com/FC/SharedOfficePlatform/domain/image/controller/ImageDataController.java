@@ -113,6 +113,15 @@ public class ImageDataController {
         return ResponseEntity.ok(ResponseDTO.okWithData(responses));
     }
 
+    @GetMapping("/place/{placeId}")
+    public ResponseEntity<ResponseDTO<List<ImageDataResponse>>> getImagesByPlace(@PathVariable Long placeId) {
+        List<ImageData> imagesByPlace = imageDataService.getImagesByPlace(placeId);
+        List<ImageDataResponse> responses = imagesByPlace.stream()
+            .map(ImageDataResponse::from)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(ResponseDTO.okWithData(responses));
+    }
+
 }
 
 
