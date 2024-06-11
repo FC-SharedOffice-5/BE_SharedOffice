@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "office")
 @NoArgsConstructor
@@ -47,8 +49,12 @@ public class Office extends BaseTimeEntity {
     @Column(name = "office_longitude", length = 15)
     private String officeLongitude;
 
+    @ElementCollection
     @Column(name = "office_facilities", length = 100)
-    private String officeFacilities;
+    private List<String> officeFacilities;
+
+    @Column(name = "office_phone", length = 13)
+    private String officePhone;
 
     @OneToMany(mappedBy = "office", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImageData> images = new ArrayList<>();
@@ -66,6 +72,8 @@ public class Office extends BaseTimeEntity {
             String officeLongitude,
             String officeFacilities,
             List<ImageData> images
+            List<String> officeFacilities,
+            String officePhone
     ) {
         this.officeName = officeName;
         this.officeAddr = officeAddr;
@@ -78,6 +86,7 @@ public class Office extends BaseTimeEntity {
         this.officeLongitude = officeLongitude;
         this.officeFacilities = officeFacilities;
         this.images = images;
+        this.officePhone = officePhone;
     }
 
 }
