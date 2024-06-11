@@ -16,10 +16,22 @@ public class FreeBoardDetailResponse{
     String boardContents;
     Long likesCount;
     Integer memberLike;
+    String memberNickname;
+    String officeName;
     List<CommentListResponse> comments;
 
     // 기존 생성자
-    public FreeBoardDetailResponse(Long boardId, long memberId, long officeId, String boardTitle, String boardContents, Long likesCount, Integer memberLike) {
+    public FreeBoardDetailResponse(
+            Long boardId,
+            long memberId,
+            long officeId,
+            String boardTitle,
+            String boardContents,
+            Long likesCount,
+            Integer memberLike,
+            String memberNickname,
+            String officeName
+    ) {
         this.boardId = boardId;
         this.memberId = memberId;
         this.officeId = officeId;
@@ -27,11 +39,24 @@ public class FreeBoardDetailResponse{
         this.boardContents = boardContents;
         this.likesCount = likesCount;
         this.memberLike = memberLike;
+        this.memberNickname = memberNickname;
+        this.officeName = officeName;
         this.comments = new ArrayList<>(); // 또는 null 처리
     }
 
     // comments를 포함한 모든 필드를 초기화하는 새로운 생성자 추가
-    public FreeBoardDetailResponse(Long boardId, long memberId, long officeId, String boardTitle, String boardContents, Long likesCount, Integer memberLike, List<CommentListResponse> comments) {
+    public FreeBoardDetailResponse(
+            Long boardId,
+            long memberId,
+            long officeId,
+            String boardTitle,
+            String boardContents,
+            Long likesCount,
+            Integer memberLike,
+            String memberNickname,
+            String officeName,
+            List<CommentListResponse> comments
+    ) {
         this.boardId = boardId;
         this.memberId = memberId;
         this.officeId = officeId;
@@ -39,6 +64,8 @@ public class FreeBoardDetailResponse{
         this.boardContents = boardContents;
         this.likesCount = likesCount;
         this.memberLike = memberLike;
+        this.memberNickname = memberNickname;
+        this.officeName = officeName;
         this.comments = comments; // comments도 초기화
     }
 }

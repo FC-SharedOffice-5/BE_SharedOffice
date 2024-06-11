@@ -39,19 +39,21 @@ public class FreeBoardService {
 
     @Transactional(readOnly = true)
     public FreeBoardDetailResponse getFreeBoard(Long boardId, Long memberId) {
-        FreeBoardDetailResponse projection = freeBoardRepository.findByBoardIdWithLikesCount(boardId, memberId)
+        FreeBoardDetailResponse freeBoardDetailResponse = freeBoardRepository.findByBoardIdWithLikesCount(boardId, memberId)
                 .orElseThrow(() -> new FreeBoardNotFoundException("Document with ID " + boardId + " not found"));
 
         List<CommentListResponse> comments = commentRepository.findByLinkIdAndLinkCategory(boardId, 0, memberId);
 
         return new FreeBoardDetailResponse(
-                projection.getBoardId(),
-                projection.getMemberId(),
-                projection.getOfficeId(),
-                projection.getBoardTitle(),
-                projection.getBoardContents(),
-                projection.getLikesCount(),
-                projection.getMemberLike(),
+                freeBoardDetailResponse.getBoardId(),
+                freeBoardDetailResponse.getMemberId(),
+                freeBoardDetailResponse.getOfficeId(),
+                freeBoardDetailResponse.getBoardTitle(),
+                freeBoardDetailResponse.getBoardContents(),
+                freeBoardDetailResponse.getLikesCount(),
+                freeBoardDetailResponse.getMemberLike(),
+                freeBoardDetailResponse.getMemberNickname(),
+                freeBoardDetailResponse.getOfficeName(),
                 comments
         );
     }
