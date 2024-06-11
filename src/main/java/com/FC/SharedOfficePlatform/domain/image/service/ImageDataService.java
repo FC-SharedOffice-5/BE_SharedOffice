@@ -9,11 +9,14 @@ import com.FC.SharedOfficePlatform.domain.image.exception.FreeBoardNotFoundExcep
 import com.FC.SharedOfficePlatform.domain.image.exception.ImageFileAlreadyRegisteredException;
 import com.FC.SharedOfficePlatform.domain.image.exception.ImageFileNotFoundException;
 import com.FC.SharedOfficePlatform.domain.image.exception.OfficeNotFoundException;
+import com.FC.SharedOfficePlatform.domain.image.exception.PlaceNotFoundException;
 import com.FC.SharedOfficePlatform.domain.image.repository.ImageDataRepository;
 import com.FC.SharedOfficePlatform.domain.member.entity.Member;
 import com.FC.SharedOfficePlatform.domain.member.repository.MemberRepository;
 import com.FC.SharedOfficePlatform.domain.office.entity.Office;
 import com.FC.SharedOfficePlatform.domain.office.repository.OfficeRepository;
+import com.FC.SharedOfficePlatform.domain.place.entity.Place;
+import com.FC.SharedOfficePlatform.domain.place.repository.PlaceRepository;
 import com.FC.SharedOfficePlatform.global.util.ImageUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -34,6 +37,7 @@ public class ImageDataService {
     private final MemberRepository memberRepository;
     private final FreeBoardRepository freeBoardRepository;
     private final OfficeRepository officeRepository;
+    private final PlaceRepository placeRepository;
 
     public ImageDataResponse uploadImage(MultipartFile multipartFile, String entityType, Long entityId, HttpServletRequest httpServletRequest)
         throws IOException, NoSuchAlgorithmException {
@@ -53,6 +57,7 @@ public class ImageDataService {
         Member member = null;
         FreeBoard freeBoard = null;
         Office office = null;
+        Place place = null;
 
         // Determine the entity type and retrieve the corresponding entity
         if ("member".equalsIgnoreCase(entityType)) {
@@ -64,6 +69,9 @@ public class ImageDataService {
         } else if ("office".equalsIgnoreCase(entityType)) {
             office = officeRepository.findById(entityId)
                 .orElseThrow(() -> new OfficeNotFoundException());
+        } else if ("place".equalsIgnoreCase(entityType)) {
+            place = placeRepository.findById(entityId)
+                .orElseThrow(() -> new PlaceNotFoundException());
         }
 
         // Save new image data to the database if it does not already exist
@@ -77,6 +85,7 @@ public class ImageDataService {
                 .member(member)
                 .freeBoard(freeBoard)
                 .office(office)
+                .place(place)
                 .build()
         );
 
@@ -88,6 +97,9 @@ public class ImageDataService {
         }
         if (office != null) {
             office.getImages().add(savedNewImageData);
+        }
+        if (place != null) {
+            place.getImages().add(savedNewImageData);
         }
 
         return ImageDataResponse.from(savedNewImageData);
@@ -147,6 +159,12 @@ public class ImageDataService {
         Office office = officeRepository.findById(officeId)
             .orElseThrow(() -> new OfficeNotFoundException());
         return imageDataRepository.findByOffice(office);
+    }
+
+    public List<ImageData> getImagesByPlace(Long placeId) {
+        Place place = placeRepository.findById(placeId)
+            .orElseThrow(() -> new PlaceNotFoundException());
+        return imageDataRepository.findByPlace(place);
     }
 
 }

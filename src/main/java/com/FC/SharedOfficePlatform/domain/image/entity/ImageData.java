@@ -3,6 +3,7 @@ package com.FC.SharedOfficePlatform.domain.image.entity;
 import com.FC.SharedOfficePlatform.domain.freeBoard.entity.FreeBoard;
 import com.FC.SharedOfficePlatform.domain.member.entity.Member;
 import com.FC.SharedOfficePlatform.domain.office.entity.Office;
+import com.FC.SharedOfficePlatform.domain.place.entity.Place;
 import com.FC.SharedOfficePlatform.global.common.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -53,9 +54,13 @@ public class ImageData extends BaseTimeEntity {
     @JoinColumn(name = "office_id")
     private Office office;
 
+    @ManyToOne
+    @JoinColumn(name = "place_id")
+    private Place place;
+
     @Builder
     public ImageData(String name, String type, String hash, byte[] imageData, String url, Member member,
-                    FreeBoard freeBoard, Office office) {
+                    FreeBoard freeBoard, Office office, Place place) {
         this.name = name;
         this.type = type;
         this.hash = hash;
@@ -64,5 +69,6 @@ public class ImageData extends BaseTimeEntity {
         this.member = member;
         this.freeBoard = freeBoard;
         this.office = office;
+        this.place = place;
     }
 }
