@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "office")
@@ -86,6 +87,12 @@ public class Office extends BaseTimeEntity {
         this.images = images;
         this.officeFacilities = officeFacilities;
         this.officePhone = officePhone;
+    }
+
+    public String getFormattedOfficeFacilities() {
+        return officeFacilities.stream()
+                .map(facility -> "\"" + facility + "\"")
+                .collect(Collectors.joining(", "));
     }
 
 }
