@@ -70,8 +70,7 @@ public class Office extends BaseTimeEntity {
             int officeMeeting,
             String officeLatitude,
             String officeLongitude,
-            String officeFacilities,
-            List<ImageData> images
+            List<ImageData> images,
             List<String> officeFacilities,
             String officePhone
     ) {
@@ -84,8 +83,8 @@ public class Office extends BaseTimeEntity {
         this.officeMeeting = officeMeeting;
         this.officeLatitude = officeLatitude;
         this.officeLongitude = officeLongitude;
-        this.officeFacilities = officeFacilities;
         this.images = images;
+        this.officeFacilities = officeFacilities;
         this.officePhone = officePhone;
     }
 
