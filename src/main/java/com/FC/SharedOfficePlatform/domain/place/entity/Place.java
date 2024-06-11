@@ -1,5 +1,6 @@
 package com.FC.SharedOfficePlatform.domain.place.entity;
 
+import com.FC.SharedOfficePlatform.domain.image.entity.ImageData;
 import com.FC.SharedOfficePlatform.domain.office.entity.Office;
 import com.FC.SharedOfficePlatform.global.common.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -54,6 +55,9 @@ public class Place extends BaseTimeEntity {
     @Column(name = "place_video_yn", nullable = false, columnDefinition = "TINYINT")
     private boolean placeVideoYn;
 
+    @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageData> images = new ArrayList<>();
+
     @Builder
     public Place(
             long officeId,
@@ -64,7 +68,8 @@ public class Place extends BaseTimeEntity {
             LocalTime placeStartDate,
             LocalTime placeEndDate,
             boolean placeBeamYn,
-            boolean placeVideoYn
+            boolean placeVideoYn,
+            List<ImageData> images
     ) {
         this.officeId = officeId;
         this.placeCategory = placeCategory;
@@ -75,6 +80,7 @@ public class Place extends BaseTimeEntity {
         this.placeEndDate = placeEndDate;
         this.placeBeamYn = placeBeamYn;
         this.placeVideoYn = placeVideoYn;
+        this.images = images;
     }
 
 }
