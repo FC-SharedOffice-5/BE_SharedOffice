@@ -33,21 +33,43 @@ public class OfficeService {
 
     @Transactional(readOnly = true)
     public List<OfficeListResponse> getAllOffice(Long memberId) {
-        return officeRepository.findAllWithLikesCount(memberId);
+        List<OfficeListResponse> officeListResponses = officeRepository.findAllWithLikesCount(memberId);
+        for (OfficeListResponse response : officeListResponses) {
+            Office office = officeRepository.findById(response.getOfficeId()).orElseThrow(() -> new OfficeNotFoundException("Office not found"));
+            response.setOfficeFacilities(office.getOfficeFacilities());
+        }
+        return officeListResponses;
     }
 
     @Transactional(readOnly = true)
-    public List<OfficeListResponse> getAllAndSearchOffice(String officeName, Long memberId ) {
+    public List<OfficeListResponse> getAllAndSearchOffice(String officeName, Long memberId) {
+        List<OfficeListResponse> officeListResponses;
         if (officeName == null || officeName.isEmpty()) {
-            return officeRepository.findAllWithLikesCount(memberId);
+            officeListResponses = officeRepository.findAllWithLikesCount(memberId);
+        } else {
+            officeListResponses = officeRepository.findAllWithLikesCountAndName(officeName, memberId);
         }
-        return officeRepository.findAllWithLikesCountAndName(officeName, memberId);
+
+        for (OfficeListResponse response : officeListResponses) {
+            Office office = officeRepository.findById(response.getOfficeId())
+                    .orElseThrow(() -> new OfficeNotFoundException("Office not found"));
+            response.setOfficeFacilities(office.getOfficeFacilities());
+        }
+
+        return officeListResponses;
     }
 
     @Transactional(readOnly = true)
     public OfficeDetailResponse getDetailOffice(Long officeId, Long memberId) {
-        return officeRepository.findByOfficeIdWithLikesCount(officeId, memberId)
+        OfficeDetailResponse officeDetailResponse = officeRepository.findByOfficeIdWithLikesCount(officeId, memberId)
                 .orElseThrow(() -> new OfficeNotFoundException("Office with ID " + officeId + " not found"));
+
+        Office office = officeRepository.findById(officeId)
+                .orElseThrow(() -> new OfficeNotFoundException("Office with ID " + officeId + " not found"));
+
+        officeDetailResponse.setOfficeFacilities(office.getOfficeFacilities());
+
+        return officeDetailResponse;
     }
 
 }
