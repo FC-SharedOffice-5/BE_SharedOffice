@@ -14,14 +14,14 @@ Backend_SharedOfficePlatform
 ```java
 com.coworking_space
 ├── domain
-│   ├── user
+│   ├── member
 │   │   ├── controller
 │   │   ├── dto
 │   │   ├── entity
 │   │   ├── exception
 │   │   ├── repository
 │   │   └── service
-│   ├── travel
+│   ├── office
 │   │   ├── controller
 │   │   ├── dto
 │   │   ├── entity
