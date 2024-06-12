@@ -12,7 +12,7 @@ Backend_SharedOfficePlatform
 # **2. 패키지 구조도**
 
 ```java
-com.coworking_space
+com.FC.SharedOfficePlatform
 ├── domain
 │   ├── member
 │   │   ├── controller
