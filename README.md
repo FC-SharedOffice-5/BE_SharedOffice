@@ -30,10 +30,9 @@ com.coworking_space
 │   │   └── service
 │   ...
 └── global
-    ├── auth
     ├── common
     ├── config
-    ├── error
-    ├── infra
+    ├── exception
+    ├── security
     └── util
 ```
