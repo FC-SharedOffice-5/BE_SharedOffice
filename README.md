@@ -38,4 +38,5 @@ com.FC.SharedOfficePlatform
 ```
 # **3. API 명세서**
 <img width="448" alt="image" src="https://github.com/FC-SharedOffice-5/BE_SharedOffice/assets/97069705/a769ee42-36d2-4ef0-b5ec-d6bf02f7a381">
+
 링크 : https://www.notion.so/BE-API-06d81240cb984c608354d83f0bf37e74
